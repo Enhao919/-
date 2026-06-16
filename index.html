@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI 博士科研投稿期刊管理面板</title>
+  <title>投稿期刊管理面板</title>
   <style>
     :root {
       --bg: #0b1020;
@@ -980,6 +980,43 @@
         declarations: ["CRediT", "Funding", "COI", "Data", "AI 使用声明"],
         note: "Graphical Abstract 投稿时必需提交；适合软计算、进化算法、模糊系统。"
       },
+
+      {
+  tier: "二区",
+  abbr: "SIGPRO",
+  name: "Signal Processing",
+  ifactor: "3.6",
+  publisher: "Elsevier",
+  url: "https://submit.elsevier.com/SIGPRO",
+  review: "single",
+  reviewText: "单盲 / single-anonymized",
+  abstract: "≤250 词，需说明研究目的、主要结果和主要结论，避免引用和非常用缩写",
+  length: "Original Research Articles ≤30 页，single column、double spaced，含图表和参考文献；Review Articles 通常 30–60 页；Short Communications ≤10 页",
+  refs: "无明确强制上下限；正文引用与参考文献列表需一一对应，格式一致，建议 DOI",
+  keywords: "1–7 个",
+  highlights: "必需，3–5 条，每条 ≤85 字符，需作为单独可编辑文件提交",
+  graphical: true,
+  declarations: ["CRediT", "Funding", "COI", "Data", "AI 使用声明"],
+  note: "Word 投稿 single-column，LaTeX 可 double-column；Graphical Abstract 鼓励提交；需提供 Data availability statement，生成式 AI 使用需在参考文献前声明。"
+},
+{
+  tier: "二区",
+  abbr: "ASEJ",
+  name: "Ain Shams Engineering Journal",
+  ifactor: "5.9",
+  publisher: "Elsevier",
+  url: "https://submit.elsevier.com/ASEJ",
+  review: "double",
+  reviewText: "双盲 / double-anonymized",
+  abstract: "官方指南未见明确词数上限；应简明 factual，概述研究目的、主要结果和主要结论",
+  length: "图表放在正文适当位置；12 号字体、single space；稿件文件含图表限制为 10 页",
+  refs: "无明确强制上下限；按出现顺序编号，方括号格式；网页需 URL 和访问日期，建议 DOI",
+  keywords: "最多 6 个，American spelling，避免过泛、复数和多概念关键词",
+  highlights: "where applicable；官方未见强制条数或字符数要求",
+  declarations: ["CRediT", "Funding", "COI", "AI 使用声明"],
+  note: "需单独提交 title page 和匿名主文稿；官方指南未见明确强制 Data availability statement 条目；若使用生成式 AI，需在参考文献前加入 AI 使用声明。"
+},
+
       {
         tier: "三区",
         abbr: "IVC",
@@ -1031,7 +1068,59 @@
         highlights: "IEEE 通常无 Highlights 要求",
         declarations: ["Funding", "AI 使用披露", "视频材料随稿审"],
         note: "需同时提交源文件和 PDF，内容一致；开放获取，速度较快但 APC 需关注。"
-      }
+      },
+      {
+  tier: "三区",
+  abbr: "Connection Science",
+  name: "Connection Science",
+  ifactor: "待核对",
+  publisher: "Taylor & Francis",
+  url: "https://www.tandfonline.com/action/authorSubmission?show=instructions&journalCode=ccos20",
+  review: "double",
+  reviewText: "双匿名 / double-anonymous",
+  abstract: "官网公开页面未查到强制摘要词数上限，建议约 150–250 词并保持 factual",
+  length: "正文字数、页数、图表数未见明确强制上限；建议完整、简洁说明研究",
+  refs: "无明确数量上下限；文中引用与参考文献列表必须对应且格式一致，建议 DOI",
+  keywords: "官网未见强制说明，建议 3–6 个",
+  highlights: "未见强制 Highlights / Graphical Abstract 要求",
+  declarations: ["CRediT", "Funding", "COI", "Data", "AI 使用声明"],
+  note: "投稿需英文；Taylor & Francis 通常接受 Word / LaTeX；若期刊采用双匿名评审，需提交匿名稿与非匿名稿。"
+},
+{
+  tier: "三区",
+  abbr: "Sci Rep",
+  name: "Scientific Reports",
+  ifactor: "待核对",
+  publisher: "Springer Nature",
+  url: "https://www.nature.com/srep/",
+  review: "single",
+  reviewText: "单匿名 / single-anonymized",
+  abstract: "≤200 词，不分小标题，不含参考文献，应概述背景、主要结果和意义",
+  length: "通常无严格硬限制；强烈建议 Article ≤11 个排版页，正文主体 ≤4500 词；Display items 通常 ≤8 个",
+  refs: "建议 ≤60 篇但不严格执行；采用 Nature 数字引用格式",
+  keywords: "最多 6 个",
+  highlights: "不支持 Graphical Abstract；未见 Highlights 要求",
+  declarations: ["Author Contribution", "Funding", "COI", "Data", "Ethics", "AI 说明"],
+  note: "初投稿可用 Word、LaTeX 或 PDF；修回稿正文需 Word 或 LaTeX；需 Author Contribution、Competing Interests、Data Availability Statement。"
+},
+{
+  tier: "三区",
+  abbr: "PLOS ONE",
+  name: "PLOS ONE",
+  ifactor: "待核对",
+  publisher: "PLOS",
+  url: "https://journals.plos.org/plosone/",
+  review: "single",
+  reviewText: "单匿名 / single-anonymized",
+  abstract: "≤300 词，应说明研究目标、方法概况、最重要结果及意义，不应含引用",
+  length: "Research Article 无强制字数、图数或补充材料数量限制；正文双倍行距，不允许多栏排版，需页码和连续行号",
+  refs: "Vancouver / ICMJE 数字顺序格式，方括号编号；无明确数量上限，DOI 可作为卷页信息补充或替代",
+  keywords: "官网投稿指南未要求传统关键词，通过 PLOS taxonomy / Subject Areas 分类",
+  highlights: "Striking Image 可选；未见强制 Highlights / Graphical Abstract 要求",
+  declarations: ["CRediT", "Funding", "COI", "Data", "Ethics", "AI 说明"],
+  note: "需 full title 和 short title；full title ≤250 字符，short title ≤100 字符；投稿系统中需提供作者 CRediT、Funding、Competing interests 和 Data Availability。"
+}
+
     ];
 
     const grid = document.getElementById("journalGrid");
