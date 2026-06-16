@@ -3,598 +3,627 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>投稿期刊管理</title>
+  <title>AI Journal Submission Hub · Cyber Edition</title>
+
   <style>
     :root {
-      --bg: #0b1020;
-      --bg2: #111936;
-      --card: rgba(255, 255, 255, 0.085);
-      --card2: rgba(255, 255, 255, 0.12);
-      --line: rgba(255, 255, 255, 0.15);
-      --text: #eef3ff;
-      --muted: #9fb0d0;
-      --blue: #70a5ff;
-      --cyan: #55e6c1;
-      --gold: #ffd166;
-      --red: #ff6b6b;
-      --green: #46d39a;
-      --purple: #b692ff;
-      --shadow: 0 24px 80px rgba(0, 0, 0, .35);
-      --radius: 24px;
-      --font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-        "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+      --bg0: #050816;
+      --bg1: #08111f;
+      --bg2: #101a35;
+      --card: rgba(15, 23, 42, .72);
+      --card2: rgba(17, 31, 58, .78);
+      --glass: rgba(255,255,255,.075);
+      --line: rgba(148, 163, 184, .22);
+      --line2: rgba(125, 211, 252, .35);
+      --text: #e5f2ff;
+      --muted: #9fb3c8;
+      --cyan: #22d3ee;
+      --blue: #60a5fa;
+      --purple: #a78bfa;
+      --pink: #fb7185;
+      --gold: #fbbf24;
+      --green: #34d399;
+      --red: #fb7185;
+      --shadow: 0 24px 70px rgba(0,0,0,.35);
+      --radius: 22px;
+      --font: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+      --serif: Georgia, "Times New Roman", "Songti SC", "SimSun", serif;
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
       margin: 0;
       min-height: 100vh;
+      color: var(--text);
       font-family: var(--font);
       background:
-        radial-gradient(circle at 5% 5%, rgba(85, 230, 193, .20), transparent 28%),
-        radial-gradient(circle at 90% 0%, rgba(112, 165, 255, .24), transparent 32%),
-        radial-gradient(circle at 55% 80%, rgba(182, 146, 255, .16), transparent 35%),
-        linear-gradient(145deg, var(--bg), #07101f 55%, #090d19);
-      color: var(--text);
+        radial-gradient(circle at 20% 10%, rgba(34,211,238,.20), transparent 28%),
+        radial-gradient(circle at 85% 0%, rgba(167,139,250,.18), transparent 30%),
+        radial-gradient(circle at 70% 70%, rgba(251,113,133,.11), transparent 35%),
+        linear-gradient(135deg, var(--bg0), var(--bg1) 45%, var(--bg2));
+      overflow-x: hidden;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .35;
+      background-image:
+        linear-gradient(rgba(125,211,252,.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(125,211,252,.07) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: radial-gradient(circle at center, black 0 55%, transparent 88%);
+      z-index: -3;
     }
 
-    .container {
-      width: min(1440px, calc(100% - 36px));
-      margin: 0 auto;
-    }
-
-    .hero {
-      padding: 44px 0 26px;
-      position: relative;
-    }
-
-    .nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-      margin-bottom: 32px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .logo {
-      width: 48px;
-      height: 48px;
-      border-radius: 16px;
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -2;
       background:
-        linear-gradient(135deg, rgba(85, 230, 193, .95), rgba(112, 165, 255, .95));
-      display: grid;
-      place-items: center;
-      color: #07101f;
-      font-weight: 900;
-      box-shadow: 0 12px 36px rgba(85, 230, 193, .25);
+        radial-gradient(circle, rgba(255,255,255,.75) 1px, transparent 1.5px) 12px 18px / 130px 130px,
+        radial-gradient(circle, rgba(125,211,252,.55) 1px, transparent 1.5px) 42px 68px / 170px 170px,
+        radial-gradient(circle, rgba(251,113,133,.45) 1px, transparent 1.5px) 88px 32px / 210px 210px;
+      animation: starDrift 26s linear infinite;
+      opacity: .45;
     }
 
-    .brand h1 {
-      margin: 0;
-      font-size: 20px;
-      letter-spacing: .3px;
+    @keyframes starDrift {
+      from { transform: translateY(0); }
+      to { transform: translateY(90px); }
     }
 
-    .brand p {
-      margin: 2px 0 0;
-      color: var(--muted);
-      font-size: 13px;
+    a { color: inherit; text-decoration: none; }
+    .container { width: min(1460px, calc(100% - 36px)); margin: 0 auto; }
+
+    .petal-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+      overflow: hidden;
     }
 
-    .nav-actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
+    .petal {
+      position: absolute;
+      top: -60px;
+      opacity: .86;
+      filter: drop-shadow(0 0 10px rgba(255,255,255,.20));
+      animation-name: fall, sway, spin;
+      animation-timing-function: linear, ease-in-out, linear;
+      animation-iteration-count: infinite, infinite, infinite;
     }
 
-    .btn {
+    .petal.sakura {
+      width: 18px;
+      height: 14px;
+      background: linear-gradient(135deg, #ffd1dc, #fb7185);
+      border-radius: 80% 0 80% 0;
+      transform: rotate(45deg);
+    }
+
+    .petal.maple {
+      color: #f97316;
+      font-size: 24px;
+      width: 26px;
+      height: 26px;
+    }
+
+    @keyframes fall {
+      to { top: calc(100vh + 80px); }
+    }
+
+    @keyframes sway {
+      0%,100% { margin-left: 0; }
+      50% { margin-left: 80px; }
+    }
+
+    @keyframes spin {
+      to { rotate: 360deg; }
+    }
+
+    .hero { padding: 32px 0 18px; position: relative; z-index: 5; }
+    .nav {
+      display: flex; justify-content: space-between; align-items: center; gap: 18px;
+      padding: 16px 18px;
       border: 1px solid var(--line);
-      background: rgba(255, 255, 255, .08);
+      border-radius: 24px;
+      background: rgba(2, 6, 23, .50);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .brand { display: flex; gap: 15px; align-items: center; }
+    .logo {
+      width: 58px; height: 58px; border-radius: 18px;
+      display: grid; place-items: center;
+      font-family: var(--serif); font-weight: 900; font-size: 22px;
+      background:
+        linear-gradient(145deg, rgba(34,211,238,.95), rgba(167,139,250,.90) 55%, rgba(251,113,133,.90));
+      box-shadow: 0 0 35px rgba(34,211,238,.38), inset 0 0 20px rgba(255,255,255,.20);
+    }
+
+    .brand h1 { margin: 0; font-family: var(--serif); font-size: 25px; letter-spacing: .2px; }
+    .brand p { margin: 5px 0 0; color: var(--muted); font-size: 13px; }
+    .nav-actions, .panel-actions, .quick-tabs, .filters { display: flex; flex-wrap: wrap; gap: 10px; }
+
+    .btn, .chip, .small-action, .submit, .close {
+      border: 1px solid var(--line2);
       color: var(--text);
-      padding: 11px 15px;
+      background: linear-gradient(135deg, rgba(34,211,238,.12), rgba(167,139,250,.10));
       border-radius: 999px;
-      font-size: 13px;
-      font-weight: 700;
+      padding: 10px 14px;
+      font-weight: 900;
       cursor: pointer;
-      transition: .2s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      backdrop-filter: blur(12px);
+      transition: .18s ease;
+      box-shadow: 0 0 22px rgba(34,211,238,.08);
     }
 
-    .btn:hover {
+    .btn:hover, .chip:hover, .small-action:hover, .submit:hover {
       transform: translateY(-2px);
-      background: rgba(255, 255, 255, .14);
-      border-color: rgba(255, 255, 255, .28);
+      border-color: rgba(34,211,238,.75);
+      box-shadow: 0 0 30px rgba(34,211,238,.25);
     }
 
-    .btn.primary {
-      border: 0;
-      color: #07101f;
-      background: linear-gradient(135deg, var(--cyan), var(--blue));
+    .btn.primary, .chip.active, .submit {
+      background: linear-gradient(135deg, rgba(34,211,238,.95), rgba(96,165,250,.90), rgba(167,139,250,.88));
+      color: #020617;
+      border-color: transparent;
+    }
+
+    .btn.danger {
+      background: linear-gradient(135deg, rgba(251,113,133,.95), rgba(244,63,94,.78));
+      color: #fff;
+      border-color: transparent;
     }
 
     .headline {
       display: grid;
-      grid-template-columns: 1.45fr .55fr;
-      gap: 24px;
-      align-items: stretch;
+      grid-template-columns: 1.32fr .68fr;
+      gap: 20px;
+      margin-top: 22px;
+    }
+
+    .hero-card, .panel, .stat, .toolbar, .journal, .modal-card, .match-card, .manuscript-card, .empty {
+      background: var(--card);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
     }
 
     .hero-card {
-      border: 1px solid var(--line);
-      background: linear-gradient(145deg, rgba(255,255,255,.12), rgba(255,255,255,.055));
-      border-radius: 34px;
-      padding: 34px;
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(18px);
+      border-radius: 30px;
       overflow: hidden;
       position: relative;
+      padding: 36px;
     }
 
-    .hero-card::after {
+    .hero-card::before, .panel::before, .journal::before, .modal-card::before {
       content: "";
       position: absolute;
-      right: -80px;
-      top: -80px;
-      width: 240px;
-      height: 240px;
-      background: radial-gradient(circle, rgba(85,230,193,.22), transparent 70%);
-      pointer-events: none;
+      inset: 0 0 auto 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--cyan), var(--purple), var(--pink), transparent);
+      opacity: .95;
+    }
+
+    .orb {
+      position: absolute;
+      width: 260px; height: 260px; border-radius: 50%;
+      right: -60px; top: -80px;
+      background: radial-gradient(circle, rgba(34,211,238,.35), transparent 62%);
+      filter: blur(2px);
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%,100% { transform: scale(1); opacity: .65; }
+      50% { transform: scale(1.12); opacity: 1; }
     }
 
     .eyebrow {
       display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 12px;
-      border: 1px solid rgba(85,230,193,.35);
-      background: rgba(85,230,193,.08);
-      color: #bfffee;
+      padding: 8px 13px;
       border-radius: 999px;
+      background: rgba(251,191,36,.13);
+      border: 1px solid rgba(251,191,36,.35);
+      color: #fde68a;
       font-size: 13px;
-      font-weight: 800;
+      font-weight: 900;
       margin-bottom: 18px;
     }
 
     .hero h2 {
       margin: 0;
-      font-size: clamp(32px, 5vw, 66px);
-      line-height: 1.02;
-      letter-spacing: -2.2px;
+      font-family: var(--serif);
+      font-size: clamp(38px, 6vw, 68px);
+      line-height: 1.05;
+      letter-spacing: -1.6px;
+      text-shadow: 0 0 28px rgba(34,211,238,.22);
     }
 
     .hero h2 span {
-      background: linear-gradient(135deg, #fff, #a9c8ff 44%, #7ff4d8);
+      background: linear-gradient(90deg, #67e8f9, #c4b5fd, #fb7185);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
     }
 
     .hero-desc {
-      margin: 18px 0 0;
-      max-width: 850px;
-      color: var(--muted);
-      font-size: 16px;
-      line-height: 1.8;
-    }
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-      height: 100%;
-    }
-
-    .stat {
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,.075);
-      border-radius: 24px;
-      padding: 22px;
-      backdrop-filter: blur(14px);
-    }
-
-    .stat strong {
-      display: block;
-      font-size: 32px;
-      letter-spacing: -1px;
-    }
-
-    .stat span {
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .toolbar {
-      margin: 28px 0 22px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,.075);
-      border-radius: 28px;
-      padding: 16px;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 14px;
-      align-items: center;
-      backdrop-filter: blur(18px);
-      position: sticky;
-      top: 12px;
-      z-index: 20;
-      box-shadow: 0 16px 45px rgba(0,0,0,.22);
-    }
-
-    .search {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      background: rgba(0,0,0,.18);
-      border: 1px solid rgba(255,255,255,.11);
-      border-radius: 18px;
-      padding: 0 14px;
-      height: 52px;
-    }
-
-    .search input {
-      width: 100%;
-      border: 0;
-      outline: 0;
-      background: transparent;
-      color: var(--text);
+      max-width: 940px;
+      color: #c7d6e6;
+      line-height: 1.95;
       font-size: 15px;
-    }
-
-    .search input::placeholder {
-      color: #7f8eaa;
-    }
-
-    .filters {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 9px;
-      justify-content: flex-end;
-    }
-
-    .chip {
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,.08);
-      color: var(--muted);
-      padding: 10px 13px;
-      border-radius: 999px;
-      cursor: pointer;
-      font-size: 13px;
-      font-weight: 800;
-      transition: .2s ease;
-      user-select: none;
-    }
-
-    .chip.active,
-    .chip:hover {
-      color: #07101f;
-      background: linear-gradient(135deg, var(--cyan), var(--blue));
-      border-color: transparent;
-    }
-
-    .section-title {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin: 28px 2px 15px;
-      gap: 12px;
-    }
-
-    .section-title h3 {
-      margin: 0;
-      font-size: 22px;
-      letter-spacing: -.4px;
-    }
-
-    .section-title p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-      padding-bottom: 42px;
-    }
-
-    .journal {
-      border: 1px solid var(--line);
-      background: linear-gradient(145deg, rgba(255,255,255,.11), rgba(255,255,255,.055));
-      border-radius: var(--radius);
-      padding: 18px;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 18px 52px rgba(0,0,0,.22);
-      transition: .22s ease;
-      min-height: 420px;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .journal:hover {
-      transform: translateY(-5px);
-      border-color: rgba(85,230,193,.38);
-      box-shadow: 0 24px 70px rgba(0,0,0,.35);
-    }
-
-    .journal::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(circle at 88% 8%, rgba(112,165,255,.18), transparent 30%),
-        radial-gradient(circle at 12% 94%, rgba(85,230,193,.10), transparent 32%);
-      opacity: .9;
-      pointer-events: none;
-    }
-
-    .journal > * {
+      margin: 18px 0 0;
       position: relative;
       z-index: 1;
     }
 
-    .topline {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 12px;
+    .stats { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; }
+    .stat {
+      border-radius: 24px;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
     }
 
+    .stat::after {
+      content: "";
+      position: absolute;
+      width: 120px; height: 120px; right: -45px; bottom: -45px;
+      background: radial-gradient(circle, rgba(34,211,238,.24), transparent 66%);
+    }
+
+    .stat strong {
+      display: block;
+      font-family: var(--serif);
+      font-size: 36px;
+      color: #a5f3fc;
+      text-shadow: 0 0 18px rgba(34,211,238,.25);
+    }
+
+    .stat span { color: var(--muted); font-size: 13px; font-weight: 900; }
+    .quick-tabs { margin: 20px 0 10px; }
+
+    .toolbar {
+      position: sticky;
+      top: 12px;
+      z-index: 20;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      margin: 20px 0;
+      border-radius: 24px;
+      padding: 14px;
+    }
+
+    .search {
+      height: 52px;
+      display: flex; align-items: center; gap: 12px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      padding: 0 15px;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 11px 12px;
+      color: var(--text);
+      background: rgba(2,6,23,.50);
+      outline: none;
+      font-family: var(--font);
+    }
+
+    option { background: #0f172a; }
+    textarea { min-height: 100px; resize: vertical; }
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--cyan);
+      box-shadow: 0 0 0 3px rgba(34,211,238,.13);
+    }
+
+    .search input { border: 0; background: transparent; padding: 0; font-size: 15px; }
+    .section-title {
+      display: flex; justify-content: space-between; align-items: flex-end; gap: 12px;
+      margin: 28px 0 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-title h3, .panel h3 {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: 28px;
+    }
+
+    .section-title p, .panel-desc {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .panel {
+      position: relative;
+      border-radius: 28px;
+      padding: 22px;
+      margin: 22px 0;
+      overflow: hidden;
+    }
+
+    .form-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+    .form-grid.wide { grid-template-columns: 1.4fr 1.4fr 1fr 1fr; }
+    label { display: grid; gap: 7px; color: #dbeafe; font-size: 13px; font-weight: 900; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 18px;
+      padding-bottom: 34px;
+    }
+
+    .journal {
+      position: relative;
+      overflow: hidden;
+      border-radius: 26px;
+      padding: 18px;
+      min-height: 480px;
+      display: flex;
+      flex-direction: column;
+      transition: .2s ease;
+    }
+
+    .journal:hover {
+      transform: translateY(-6px);
+      border-color: rgba(34,211,238,.55);
+      box-shadow: 0 30px 80px rgba(34,211,238,.12), 0 24px 70px rgba(0,0,0,.35);
+    }
+
+    .topline { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
     .rank {
       display: inline-flex;
       align-items: center;
-      gap: 7px;
+      gap: 6px;
+      color: #020617;
       font-size: 12px;
-      color: #07101f;
-      font-weight: 900;
-      padding: 7px 10px;
+      font-weight: 950;
       border-radius: 999px;
-      background: linear-gradient(135deg, var(--gold), #ffefae);
+      padding: 7px 10px;
+      background: linear-gradient(135deg, #67e8f9, #a78bfa);
     }
 
-    .rank.q2 {
-      background: linear-gradient(135deg, #9be7ff, #d9f6ff);
-    }
-
-    .rank.q3 {
-      background: linear-gradient(135deg, #c2f970, #efffbb);
-    }
+    .rank.cas2 { background: linear-gradient(135deg, #34d399, #67e8f9); }
+    .rank.cas3 { background: linear-gradient(135deg, #fbbf24, #fb7185); }
 
     .ifbox {
-      width: 82px;
-      min-width: 82px;
-      border-radius: 18px;
-      padding: 10px 8px;
+      width: 92px; min-width: 92px;
       text-align: center;
-      background: rgba(0,0,0,.24);
-      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 18px;
+      padding: 9px 8px;
+      border: 1px solid rgba(34,211,238,.28);
+      background: rgba(34,211,238,.09);
     }
 
-    .ifbox span {
-      display: block;
-      color: var(--muted);
-      font-size: 11px;
-      font-weight: 800;
-      text-transform: uppercase;
-    }
-
-    .ifbox strong {
-      display: block;
-      margin-top: 2px;
-      font-size: 24px;
-      color: var(--cyan);
-      letter-spacing: -.8px;
-    }
+    .ifbox span { display: block; color: var(--muted); font-size: 11px; font-weight: 900; }
+    .ifbox strong { display: block; color: #a5f3fc; font-family: var(--serif); font-size: 25px; }
 
     .journal h4 {
       margin: 0;
+      font-family: var(--serif);
       font-size: 22px;
-      line-height: 1.22;
-      letter-spacing: -.45px;
+      line-height: 1.25;
     }
 
-    .abbr {
-      margin-top: 6px;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.5;
-    }
-
-    .tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px;
-      margin: 14px 0;
-    }
-
+    .abbr { color: var(--muted); font-size: 13px; line-height: 1.55; margin-top: 6px; }
+    .tags { display: flex; flex-wrap: wrap; gap: 7px; margin: 14px 0; }
     .tag {
-      font-size: 12px;
-      font-weight: 800;
-      color: #dbe7ff;
       padding: 7px 9px;
       border-radius: 999px;
-      background: rgba(255,255,255,.09);
-      border: 1px solid rgba(255,255,255,.11);
-    }
-
-    .tag.warn {
-      color: #ffeab0;
-      border-color: rgba(255,209,102,.25);
-      background: rgba(255,209,102,.08);
-    }
-
-    .tag.good {
-      color: #bfffee;
-      border-color: rgba(85,230,193,.25);
-      background: rgba(85,230,193,.08);
-    }
-
-    .tag.danger {
-      color: #ffd0d0;
-      border-color: rgba(255,107,107,.25);
-      background: rgba(255,107,107,.08);
-    }
-
-    .details {
-      display: grid;
-      gap: 8px;
-      margin: 4px 0 16px;
-    }
-
-    .row {
-      display: grid;
-      grid-template-columns: 86px 1fr;
-      gap: 10px;
-      font-size: 13px;
-      line-height: 1.55;
-      color: #d7e1f8;
-      padding: 9px 0;
-      border-bottom: 1px solid rgba(255,255,255,.08);
-    }
-
-    .row b {
-      color: #8fa4c9;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      color: #cfe8ff;
+      font-size: 12px;
       font-weight: 900;
     }
 
+    .tag.good { color: #bbf7d0; border-color: rgba(52,211,153,.30); background: rgba(52,211,153,.09); }
+    .tag.warn { color: #fde68a; border-color: rgba(251,191,36,.35); background: rgba(251,191,36,.10); }
+    .tag.danger { color: #fecdd3; border-color: rgba(251,113,133,.35); background: rgba(251,113,133,.10); }
+
+    .details { display: grid; gap: 6px; margin: 4px 0 16px; }
+    .row {
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      gap: 10px;
+      font-size: 13px;
+      line-height: 1.58;
+      color: #c9d8e8;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(148,163,184,.13);
+    }
+
+    .row b { color: #a5f3fc; }
     .notes {
       margin-top: auto;
       padding: 13px;
-      border-radius: 18px;
-      background: rgba(0,0,0,.20);
-      border: 1px solid rgba(255,255,255,.095);
-      color: #dce6fb;
+      border-radius: 16px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid var(--line);
+      color: #d7e8f8;
       font-size: 13px;
-      line-height: 1.65;
+      line-height: 1.7;
     }
 
+    .compare-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 11px;
+      color: #a5f3fc;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .compare-box input { width: auto; }
     .actions {
       display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 9px;
+      grid-template-columns: 1fr auto auto;
+      gap: 8px;
       margin-top: 14px;
     }
 
-    .submit {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      min-height: 44px;
-      border-radius: 15px;
-      color: #07101f;
-      font-weight: 950;
-      background: linear-gradient(135deg, var(--cyan), var(--blue));
-      box-shadow: 0 10px 26px rgba(85,230,193,.18);
+    .submit, .small-action {
+      min-height: 42px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 14px;
+      font-size: 13px;
     }
 
-    .copy {
-      min-width: 48px;
+    .small-action { padding: 0 10px; }
+    .match-card, .manuscript-card {
+      border-radius: 18px;
+      padding: 14px;
       border: 1px solid var(--line);
-      background: rgba(255,255,255,.08);
-      color: var(--text);
-      border-radius: 15px;
-      cursor: pointer;
-      font-weight: 900;
+      background: rgba(255,255,255,.065);
     }
+
+    .result-list { display: grid; gap: 12px; margin-top: 16px; }
+    .match-head { display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+    .score { font-family: var(--serif); font-size: 30px; color: #f0abfc; font-weight: 900; }
+    .bar { height: 8px; border-radius: 999px; overflow: hidden; background: rgba(148,163,184,.20); margin: 10px 0; }
+    .bar > i { display: block; height: 100%; background: linear-gradient(90deg, var(--cyan), var(--purple), var(--pink)); }
+
+    .kanban { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-top: 16px; }
+    .kanban-col {
+      min-height: 200px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.045);
+      padding: 12px;
+    }
+    .kanban-col h4 { margin: 0 0 10px; font-family: var(--serif); }
+    .manuscript-card { margin-bottom: 10px; }
+    .manuscript-card strong { display: block; line-height: 1.45; margin-bottom: 6px; }
+    .manuscript-card small { display: block; color: var(--muted); line-height: 1.65; }
+    .manuscript-actions { display: grid; grid-template-columns: 1fr auto; gap: 8px; margin-top: 10px; }
+
+    .empty {
+      display: none;
+      text-align: center;
+      padding: 46px 16px;
+      border-radius: 22px;
+      color: var(--muted);
+      margin-bottom: 40px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: rgba(2, 6, 23, .68);
+      backdrop-filter: blur(10px);
+      padding: 26px;
+      overflow: auto;
+    }
+
+    .modal.open { display: block; }
+    .modal-card {
+      position: relative;
+      width: min(1120px, 100%);
+      margin: 24px auto;
+      border-radius: 28px;
+      padding: 22px;
+      overflow: hidden;
+    }
+
+    .modal-head {
+      display: flex; justify-content: space-between; align-items: flex-start; gap: 16px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 14px;
+      margin-bottom: 16px;
+    }
+
+    .modal-head h3 { margin: 0; font-family: var(--serif); font-size: 27px; }
+    .table-wrap { overflow: auto; border: 1px solid var(--line); border-radius: 16px; }
+    table { border-collapse: collapse; width: 100%; min-width: 960px; background: rgba(2,6,23,.72); }
+    th, td {
+      border-bottom: 1px solid rgba(148,163,184,.16);
+      border-right: 1px solid rgba(148,163,184,.16);
+      padding: 10px;
+      text-align: left;
+      vertical-align: top;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+    th {
+      color: #a5f3fc;
+      background: rgba(34,211,238,.08);
+      position: sticky;
+      top: 0;
+    }
+
+    .checklist { display: grid; gap: 10px; }
+    .check-item {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 11px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.055);
+      line-height: 1.55;
+      font-size: 14px;
+    }
+    .check-item input { width: auto; margin-top: 4px; }
+    .progress { margin: 10px 0 14px; color: #a5f3fc; font-weight: 900; font-size: 13px; }
 
     .footer {
       padding: 28px 0 48px;
       color: var(--muted);
       font-size: 13px;
-      line-height: 1.8;
-      border-top: 1px solid rgba(255,255,255,.08);
+      line-height: 1.9;
+      border-top: 1px solid var(--line);
     }
 
-    .footer a {
-      color: #bcd2ff;
-      text-decoration: underline;
-      text-underline-offset: 3px;
-    }
+    .footer a { color: #a5f3fc; text-decoration: underline; text-underline-offset: 3px; }
 
-    .empty {
-      display: none;
-      text-align: center;
-      padding: 56px 16px;
-      color: var(--muted);
-      border: 1px dashed var(--line);
-      border-radius: 24px;
-      margin-bottom: 40px;
+    @media print {
+      .nav-actions, .toolbar, .quick-tabs, .panel-actions, .actions, .compare-box, .modal, .petal-layer { display: none !important; }
+      body { background: #fff; color: #111; }
+      .journal, .panel, .stat, .hero-card { break-inside: avoid; box-shadow: none; color: #111; background: #fff; }
     }
 
     @media (max-width: 1180px) {
-      .grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .headline {
-        grid-template-columns: 1fr;
-      }
+      .headline { grid-template-columns: 1fr; }
+      .grid { grid-template-columns: repeat(2,1fr); }
+      .form-grid, .form-grid.wide { grid-template-columns: repeat(2,1fr); }
+      .kanban { grid-template-columns: repeat(2,1fr); }
     }
 
     @media (max-width: 760px) {
-      .container {
-        width: min(100% - 22px, 1440px);
-      }
-
-      .nav {
-        align-items: flex-start;
-        flex-direction: column;
-      }
-
-      .hero-card {
-        padding: 24px;
-        border-radius: 26px;
-      }
-
-      .toolbar {
-        grid-template-columns: 1fr;
-        position: static;
-      }
-
-      .filters {
-        justify-content: flex-start;
-      }
-
-      .grid {
-        grid-template-columns: 1fr;
-      }
-
-      .stats {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .journal h4 {
-        font-size: 19px;
-      }
+      .container { width: min(100% - 22px, 1460px); }
+      .nav, .section-title { flex-direction: column; align-items: flex-start; }
+      .toolbar { grid-template-columns: 1fr; position: static; }
+      .grid, .form-grid, .form-grid.wide, .kanban { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: 1fr 1fr; }
+      .hero-card { padding: 24px; }
+      .modal { padding: 12px; }
+      .actions { grid-template-columns: 1fr 1fr; }
+      .submit { grid-column: 1 / -1; }
     }
   </style>
 </head>
 
 <body>
+  <div class="petal-layer" id="petalLayer"></div>
+
   <header class="hero">
     <div class="container">
       <nav class="nav">
@@ -602,527 +631,494 @@
           <div class="logo">AI</div>
           <div>
             <h1>AI Journal Submission Hub</h1>
-            <p>人工智能博士科研投稿期刊管理面板</p>
+            <p>中科院分区 · JCR 分区 · 选刊判断 · 投稿管理 · Cyber Edition</p>
           </div>
         </div>
+
         <div class="nav-actions">
-          <button class="btn" onclick="window.print()">🖨️ 打印 / PDF</button>
-          <button class="btn primary" onclick="scrollToCards()">⚡ 进入期刊库</button>
+          <button class="btn" onclick="window.print()">打印 / PDF</button>
+          <button class="btn" onclick="exportJSON()">导出 JSON</button>
+          <button class="btn" onclick="exportMarkdown()">导出 Markdown</button>
+          <button class="btn primary" onclick="scrollToId('journalLibrary')">进入期刊库</button>
         </div>
       </nav>
 
       <div class="headline">
         <div class="hero-card">
-          <div class="eyebrow">🧠 Research Publishing Dashboard</div>
-          <h2><span>顶级 AI 期刊</span><br />投稿导航与格式速查</h2>
+          <div class="orb"></div>
+          <div class="eyebrow">Research Submission Decision System</div>
+          <h2><span>AI 期刊投稿</span><br />决策与管理系统</h2>
           <p class="hero-desc">
-            汇总一区、二区、三区人工智能、计算机视觉、信息融合、图像处理、多媒体与软计算方向常用 SCI / IEEE 期刊。
-            支持快速搜索、按分区筛选、查看影响因子、审稿模式、摘要/页数/关键词/Highlights/声明要求，并一键进入投稿系统。
+            本系统以中科院一区 / 二区 / 三区为主分区字段，并补充 JCR Q1–Q4 信息、2024 JIF、审稿模式、摘要、
+            页数、参考文献、关键词、Highlights、Graphical Abstract、声明要求和投稿链接。界面已升级为赛博玻璃风，
+            页面中动态飘落枫叶与樱花，适合本地保存为博士投稿工作台。
           </p>
         </div>
 
         <div class="stats">
-          <div class="stat">
-            <strong id="statTotal">20</strong>
-            <span>已收录期刊</span>
-          </div>
-          <div class="stat">
-            <strong id="statQ1">14</strong>
-            <span>一区目标</span>
-          </div>
-          <div class="stat">
-            <strong id="statIF">18.6</strong>
-            <span>最高 JIF</span>
-          </div>
-          <div class="stat">
-            <strong>1-click</strong>
-            <span>快速投稿入口</span>
-          </div>
+          <div class="stat"><strong id="statTotal">25</strong><span>已收录期刊</span></div>
+          <div class="stat"><strong id="statQ1">14</strong><span>中科院一区</span></div>
+          <div class="stat"><strong id="statIF">18.6</strong><span>最高 JIF</span></div>
+          <div class="stat"><strong id="statManuscripts">0</strong><span>我的稿件</span></div>
         </div>
       </div>
 
-      <div class="toolbar" id="cards">
-        <div class="search">
-          <span>🔎</span>
-          <input id="searchInput" type="search" placeholder="搜索：TPAMI / 双盲 / Highlights / Elsevier / IEEE / 图形摘要..." />
-        </div>
-        <div class="filters">
-          <button class="chip active" data-filter="all">全部</button>
-          <button class="chip" data-filter="一区">一区</button>
-          <button class="chip" data-filter="二区">二区</button>
-          <button class="chip" data-filter="三区">三区</button>
-          <button class="chip" data-filter="single">单盲</button>
-          <button class="chip" data-filter="double">双盲</button>
-          <button class="chip" data-filter="graphical">图形摘要</button>
-        </div>
+      <div class="quick-tabs">
+        <button class="btn" onclick="scrollToId('matcher')">文章-期刊匹配</button>
+        <button class="btn" onclick="scrollToId('manuscripts')">投稿状态看板</button>
+        <button class="btn" onclick="scrollToId('journalLibrary')">期刊库</button>
+        <button class="btn" onclick="openCompareModal()">对比已选</button>
       </div>
     </div>
   </header>
 
   <main class="container">
-    <div class="section-title">
-      <div>
-        <h3>期刊卡片</h3>
-        <p>点击“立即投稿”进入对应投稿系统；点击“复制”可复制核心要求。</p>
-      </div>
-      <p id="resultCount"></p>
-    </div>
+    <section class="panel" id="matcher">
+      <h3>文章-期刊匹配度评分</h3>
+      <p class="panel-desc">
+        输入论文基本信息后，系统会根据题目、摘要、关键词、研究方向、页数、参考文献、关键词数量和 Highlights 情况，
+        对期刊进行粗粒度匹配评分。评分用于选刊初筛，不替代正式阅读期刊 Scope 和 Guide for Authors。
+      </p>
 
-    <section class="grid" id="journalGrid"></section>
-    <div class="empty" id="emptyState">没有匹配的期刊，请换一个关键词或筛选条件。</div>
+      <div class="form-grid wide">
+        <label>论文题目<input id="mTitle" placeholder="例如：A Multi-Modal Fusion Network for ..." /></label>
+        <label>关键词<input id="mKeywords" placeholder="例如：multimodal fusion; transformer; image segmentation" /></label>
+        <label>
+          目标方向
+          <select id="mArea">
+            <option value="">未指定</option>
+            <option value="computer vision image processing pattern recognition">计算机视觉 / 图像处理</option>
+            <option value="information fusion multimodal decision fusion">信息融合 / 多模态融合</option>
+            <option value="engineering application artificial intelligence">工程应用 AI</option>
+            <option value="machine learning neural networks learning systems">机器学习 / 神经网络</option>
+            <option value="soft computing optimization fuzzy evolutionary">软计算 / 优化 / 模糊系统</option>
+            <option value="security forensics privacy biometrics">安全 / 取证 / 隐私</option>
+            <option value="sensor sensing signal processing">传感器 / 信号处理</option>
+            <option value="general science multidisciplinary">综合类 / 开放学科</option>
+          </select>
+        </label>
+        <label>
+          文章类型
+          <select id="mType">
+            <option value="research">Research Article</option>
+            <option value="survey">Survey / Review</option>
+            <option value="short">Short / Letter</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="form-grid" style="margin-top:12px;">
+        <label>当前页数<input id="mPages" type="number" min="0" placeholder="例如：32" /></label>
+        <label>参考文献数<input id="mRefs" type="number" min="0" placeholder="例如：45" /></label>
+        <label>关键词数量<input id="mKeyCount" type="number" min="0" placeholder="例如：5" /></label>
+        <label>Highlights 数量<input id="mHighlights" type="number" min="0" placeholder="例如：4" /></label>
+      </div>
+
+      <label style="margin-top:12px;">
+        摘要
+        <textarea id="mAbstract" placeholder="粘贴你的摘要。系统会从摘要中提取主题词并与期刊 scopeTags 进行粗略匹配。"></textarea>
+      </label>
+
+      <div class="panel-actions">
+        <button class="btn primary" onclick="runMatcher()">计算匹配度</button>
+        <button class="btn" onclick="clearMatcher()">清空输入</button>
+      </div>
+
+      <div class="result-list" id="matchResults"></div>
+    </section>
+
+    <section class="panel" id="manuscripts">
+      <h3>我的投稿状态看板</h3>
+      <p class="panel-desc">数据保存在当前浏览器 localStorage 中，不会上传服务器。</p>
+
+      <div class="form-grid wide">
+        <label>稿件标题<input id="paperTitle" placeholder="输入论文标题" /></label>
+        <label>目标期刊<select id="paperJournal"></select></label>
+        <label>
+          当前状态
+          <select id="paperStatus">
+            <option value="Writing">Writing</option>
+            <option value="Formatting">Formatting</option>
+            <option value="Submitted">Submitted</option>
+            <option value="Under Review">Under Review</option>
+            <option value="Revision">Revision</option>
+            <option value="Accepted">Accepted</option>
+            <option value="Rejected">Rejected</option>
+          </select>
+        </label>
+        <label>日期<input id="paperDate" type="date" /></label>
+      </div>
+
+      <label style="margin-top:12px;">备注<input id="paperNote" placeholder="例如：R1 大修；With Editor 已 10 天" /></label>
+
+      <div class="panel-actions">
+        <button class="btn primary" onclick="addManuscript()">添加稿件</button>
+        <button class="btn danger" onclick="clearManuscripts()">清空看板</button>
+      </div>
+
+      <div class="kanban" id="kanban"></div>
+    </section>
+
+    <section id="journalLibrary">
+      <div class="toolbar" id="cards">
+        <div class="search">
+          <span>🔎</span>
+          <input id="searchInput" type="search" placeholder="搜索：TPAMI / 中科院一区 / JCR Q1 / 双盲 / Elsevier / IEEE / Graphical Abstract..." />
+        </div>
+
+        <div class="filters">
+          <button class="chip active" data-filter="all">全部</button>
+          <button class="chip" data-filter="中科院一区">中科院一区</button>
+          <button class="chip" data-filter="中科院二区">中科院二区</button>
+          <button class="chip" data-filter="中科院三区">中科院三区</button>
+          <button class="chip" data-filter="JCR Q1">JCR Q1</button>
+          <button class="chip" data-filter="JCR Q2">JCR Q2</button>
+          <button class="chip" data-filter="single">单盲</button>
+          <button class="chip" data-filter="double">双盲</button>
+          <button class="chip" data-filter="graphical">图形摘要</button>
+        </div>
+      </div>
+
+      <div class="section-title">
+        <div>
+          <h3>Journal Catalogue</h3>
+          <p>勾选多个期刊可进行对比；点击 Checklist 可生成投稿前检查清单。</p>
+        </div>
+        <p id="resultCount"></p>
+      </div>
+
+      <div class="panel-actions" style="margin-bottom:18px;">
+        <button class="btn primary" onclick="openCompareModal()">对比已选期刊</button>
+        <button class="btn" onclick="clearCompare()">清空对比选择</button>
+        <span id="compareCount" style="align-self:center;color:var(--muted);font-weight:900;font-size:13px;">已选择 0 本</span>
+      </div>
+
+      <section class="grid" id="journalGrid"></section>
+      <div class="empty" id="emptyState">没有匹配的期刊，请换一个关键词或筛选条件。</div>
+    </section>
   </main>
+
+  <div class="modal" id="compareModal">
+    <div class="modal-card">
+      <div class="modal-head">
+        <div>
+          <h3>期刊对比</h3>
+          <p class="panel-desc" style="margin:6px 0 0;">横向比较中科院分区、JCR 分区、JIF、审稿模式、页数、参考文献、关键词、Highlights、图形摘要与声明要求。</p>
+        </div>
+        <button class="close" onclick="closeModal('compareModal')">关闭</button>
+      </div>
+      <div id="compareContent"></div>
+    </div>
+  </div>
+
+  <div class="modal" id="checklistModal">
+    <div class="modal-card">
+      <div class="modal-head">
+        <div>
+          <h3 id="checklistTitle">投稿前 Checklist</h3>
+          <p class="panel-desc" id="checklistSub" style="margin:6px 0 0;"></p>
+        </div>
+        <button class="close" onclick="closeModal('checklistModal')">关闭</button>
+      </div>
+
+      <div class="progress" id="checklistProgress"></div>
+      <div class="checklist" id="checklistBox"></div>
+
+      <div class="panel-actions">
+        <button class="btn" onclick="resetCurrentChecklist()">重置该期刊 Checklist</button>
+        <button class="btn primary" onclick="copyCurrentChecklist()">复制 Checklist</button>
+      </div>
+    </div>
+  </div>
 
   <footer class="footer">
     <div class="container">
       <b>数据说明：</b>
-      JIF 为代码内静态维护字段，建议每年 JCR 发布后手动更新。投稿规则以期刊 Guide for Authors / Author Center / 投稿系统实时页面为准。
-      公开核对来源示例：
-      <a href="https://www.sciencedirect.com/journal/information-fusion" target="_blank">Information Fusion / ScienceDirect</a>、
-      <a href="https://www.sciencedirect.com/journal/information-sciences" target="_blank">Information Sciences / ScienceDirect</a>、
-      <a href="https://ieeeaccess.ieee.org/about/bibliometrics/" target="_blank">IEEE Access Bibliometrics</a>、
-      <a href="https://www.bioxbio.com/journal/PATTERN-RECOGN" target="_blank">Pattern Recognition JIF</a>、
-      <a href="https://www.bioxbio.com/journal/IEEE-T-PATTERN-ANAL" target="_blank">TPAMI JIF</a>、
-      <a href="https://www.bioxbio.com/journal/NEUROCOMPUTING" target="_blank">Neurocomputing JIF</a>。
+      本页面为本地化投稿管理工具。中科院分区按你的“一区/二区/三区”口径维护；JCR 分区和 JIF 采用公开可核的
+      2024 JIF / 2025 JCR release 口径。投稿前请以期刊官方 Guide for Authors、Author Center、Submission Guidelines 或投稿系统实时页面为准。
+      <br />
+      参考页面包括：
+      <a href="https://www.sciencedirect.com/" target="_blank" rel="noopener">ScienceDirect</a>、
+      <a href="https://open.ieee.org/publishing-options/ieee-access/" target="_blank" rel="noopener">IEEE Access</a>、
+      <a href="https://www.nature.com/srep/author-instructions" target="_blank" rel="noopener">Scientific Reports</a>、
+      <a href="https://journals.plos.org/plosone/s/submission-guidelines" target="_blank" rel="noopener">PLOS ONE</a>、
+      <a href="https://www.tandfonline.com/journals/ccos20" target="_blank" rel="noopener">Connection Science</a>、
+      <a href="https://clarivate.com/academia-government/scientific-and-academic-research/research-funding-analytics/journal-citation-reports/" target="_blank" rel="noopener">Clarivate JCR</a>。
     </div>
   </footer>
 
   <script>
+    const IF_YEAR = "2024 JIF / 2025 JCR release";
+
     const journals = [
       {
-        tier: "一区",
-        abbr: "PR",
-        name: "Pattern Recognition",
-        ifactor: "7.6",
-        publisher: "Elsevier",
-        url: "https://www.editorialmanager.com/pr/default.aspx",
-        review: "single",
-        reviewText: "单盲 / single-anonymized",
-        abstract: "≤250 词",
-        length: "单栏、双倍行距；普通论文 20–35 页，综述可到 40 页",
-        refs: "官方建议 35–50 篇",
-        keywords: "1–7 个",
-        highlights: "必需，3–5 条，每条 ≤85 字符",
-        declarations: ["CRediT", "Funding", "COI", "Data", "AI 使用声明"],
-        note: "题目简洁、信息充分，建议 ≤10–15 个单词；不是匿名投稿。"
+        casTier:"中科院一区", jcrQuartile:"JCR Q1", abbr:"PR", name:"Pattern Recognition", ifactor:"7.6", ifYear:IF_YEAR, publisher:"Elsevier",
+        url:"https://www.editorialmanager.com/pr/default.aspx", review:"single", reviewText:"单盲 / single-anonymized",
+        abstract:"≤250 词", length:"单栏、双倍行距；普通论文 20–35 页，综述可到 40 页",
+        refs:"官方建议 35–50 篇", keywords:"1–7 个", highlights:"必需，3–5 条，每条 ≤85 字符",
+        graphical:false,
+        declarations:["CRediT","Funding","COI","Data","AI 使用声明"],
+        note:"题目简洁、信息充分，建议 ≤10–15 个单词；不是匿名投稿；需按指南提交 Data Availability / research data 相关说明。",
+        scopeTags:["pattern recognition","computer vision","image analysis","machine learning","deep learning","classification","recognition"],
+        maxPages:35, minRefs:35, maxRefs:50, minKeywords:1, maxKeywords:7, highlightsRequired:true
       },
       {
-        tier: "一区",
-        abbr: "INFFUS",
-        name: "Information Fusion",
-        ifactor: "15.5",
-        publisher: "Elsevier",
-        url: "https://www.editorialmanager.com/inffus/default.aspx",
-        review: "single",
-        reviewText: "单盲 / single-anonymized",
-        abstract: "≤250 词",
-        length: "Research Article 10–35 页；Survey Article 可到 50 页",
-        refs: "Research ≤50；Survey ≤300",
-        keywords: "1–7 个",
-        highlights: "必需，3–5 条，每条 ≤85 字符",
-        declarations: ["CRediT", "Funding", "COI", "Data", "AI 使用声明"],
-        note: "题目避免缩写和公式；适合多源信息融合、多模态融合与决策融合。"
+        casTier:"中科院一区", jcrQuartile:"JCR Q1", abbr:"INFFUS", name:"Information Fusion", ifactor:"15.5", ifYear:IF_YEAR, publisher:"Elsevier",
+        url:"https://www.editorialmanager.com/inffus/default.aspx", review:"single", reviewText:"单盲 / single-anonymized",
+        abstract:"≤250 词", length:"Research Article 10–35 页；Survey Article 可到 50 页",
+        refs:"Research ≤50；Survey ≤300", keywords:"1–7 个", highlights:"必需，3–5 条，每条 ≤85 字符",
+        declarations:["CRediT","Funding","COI","Data","AI 使用声明"],
+        note:"题目避免缩写和公式；适合多源信息融合、多模态融合与决策融合。",
+        scopeTags:["information fusion","multimodal fusion","decision fusion","sensor fusion","data fusion","uncertainty","multi-source"],
+        maxPages:35, maxRefs:50, minKeywords:1, maxKeywords:7, highlightsRequired:true
       },
       {
-        tier: "一区",
-        abbr: "IPM",
-        name: "Information Processing & Management",
-        ifactor: "6.9",
-        publisher: "Elsevier",
-        url: "https://submit.elsevier.com/IPM",
-        review: "double",
-        reviewText: "双盲 / double-anonymized",
-        abstract: "≤250 词",
-        length: "Word 单栏；LaTeX 按模板；无严格页数硬限制",
-        refs: "无明确上下限；引用与列表一一对应，建议 DOI",
-        keywords: "1–7 个",
-        highlights: "当前指南未见强制 Highlights",
-        declarations: ["CRediT", "Funding", "COI", "Data", "AI 使用声明"],
-        note: "需提交 title page 与匿名稿件；适合信息检索、NLP、用户建模、知识管理。"
+        casTier:"中科院一区", jcrQuartile:"JCR Q1", abbr:"IPM", name:"Information Processing & Management", ifactor:"6.9", ifYear:IF_YEAR, publisher:"Elsevier",
+        url:"https://submit.elsevier.com/IPM", review:"double", reviewText:"双盲 / double-anonymized",
+        abstract:"≤250 词", length:"Word 单栏；LaTeX 按模板；无严格页数硬限制",
+        refs:"无明确上下限；引用与列表一一对应，建议 DOI", keywords:"1–7 个",
+        highlights:"当前指南未见强制 Highlights", declarations:["CRediT","Funding","COI","Data","AI 使用声明"],
+        note:"需提交 title page 与匿名稿件；适合信息检索、NLP、用户建模、知识管理。",
+        scopeTags:["information retrieval","information processing","management","natural language processing","recommender","knowledge management","user modeling"],
+        minKeywords:1, maxKeywords:7, doubleBlind:true
       },
       {
-        tier: "一区",
-        abbr: "EAAI",
-        name: "Engineering Applications of Artificial Intelligence",
-        ifactor: "8.0",
-        publisher: "Elsevier",
-        url: "https://www.editorialmanager.com/eaai/default.aspx",
-        review: "double",
-        reviewText: "双盲 / double-anonymized",
-        abstract: "≤250 词",
-        length: "必须单栏；所有投稿 ≤50 页；文件 <100 MB",
-        refs: "无强制上下限",
-        keywords: "1–6 个",
-        highlights: "鼓励，通常 3–5 条，每条 ≤85 字符",
-        declarations: ["CRediT", "Funding", "COI", "Data", "AI 使用声明"],
-        graphical: true,
-        note: "摘要需明确 AI 贡献与工程应用；单栏是 desk-rejection 条件之一。"
+        casTier:"中科院一区", jcrQuartile:"JCR Q1", abbr:"EAAI", name:"Engineering Applications of Artificial Intelligence", ifactor:"8.0", ifYear:IF_YEAR, publisher:"Elsevier",
+        url:"https://www.editorialmanager.com/eaai/default.aspx", review:"double", reviewText:"双盲 / double-anonymized",
+        abstract:"≤250 词；需明确 AI 贡献与工程应用贡献",
+        length:"必须单栏；所有投稿 ≤50 页；投稿文件 <100 MB，主文稿文件大小以系统当前校验为准",
+        refs:"无强制上下限", keywords:"1–6 个", highlights:"鼓励，通常 3–5 条，每条 ≤85 字符",
+        graphical:true, graphicalText:"Graphical Abstract 鼓励",
+        declarations:["CRediT","Funding","COI","Data","AI 使用声明"],
+        note:"单栏格式、AI 贡献/工程应用贡献、标题/摘要中未定义缩写等是 desk-rejection 风险点。",
+        scopeTags:["engineering application","artificial intelligence","industrial application","applied ai","optimization","intelligent system","real-world"],
+        maxPages:50, minKeywords:1, maxKeywords:6, doubleBlind:true
       },
       {
-        tier: "一区",
-        abbr: "KBS",
-        name: "Knowledge-Based Systems",
-        ifactor: "7.6",
-        publisher: "Elsevier",
-        url: "https://www.editorialmanager.com/knosys/default.aspx",
-        review: "single",
-        reviewText: "单盲 / single-anonymized",
-        abstract: "≤250 词",
-        length: "Original / Review 建议 ≤20 页双倍行距；Short ≤10 页",
-        refs: "无强制上下限，建议 DOI",
-        keywords: "1–7 个",
-        highlights: "鼓励，通常 3–5 条",
-        declarations: ["CRediT", "Funding", "COI", "Data", "AI 使用声明"],
-        note: "适合知识驱动 AI、决策支持、知识图谱、智能系统。"
+        casTier:"中科院一区", jcrQuartile:"JCR Q1", abbr:"KBS", name:"Knowledge-Based Systems", ifactor:"7.6", ifYear:IF_YEAR, publisher:"Elsevier",
+        url:"https://www.editorialmanager.com/knosys/default.aspx", review:"single", reviewText:"单盲 / single-anonymized",
+        abstract:"≤250 词", length:"Original / Review 建议 ≤20 页双倍行距；Short ≤10 页",
+        refs:"无强制上下限，建议 DOI", keywords:"1–7 个", highlights:"鼓励，通常 3–5 条",
+        declarations:["CRediT","Funding","COI","Data","AI 使用声明"],
+        note:"适合知识驱动 AI、决策支持、知识图谱、智能系统。",
+        scopeTags:["knowledge based systems","knowledge graph","decision support","expert system","intelligent system","reasoning","knowledge discovery"],
+        maxPages:20, minKeywords:1, maxKeywords:7
       },
       {
-        tier: "一区",
-        abbr: "ESWA",
-        name: "Expert Systems with Applications",
-        ifactor: "7.5",
-        publisher: "Elsevier",
-        url: "https://www.editorialmanager.com/eswa/default.aspx",
-        review: "double",
-        reviewText: "双盲 / double-anonymized",
-        abstract: "≤250 词",
-        length: "Word 单栏；LaTeX 可双栏；无统一硬性页数限制",
-        refs: "无强制上下限",
-        keywords: "1–7 个",
-        highlights: "鼓励，通常 3–5 条",
-        declarations: ["CRediT", "Funding", "COI", "Data", "AI 使用声明"],
-        note: "需 title page 和匿名稿；偏应用型专家系统、智能决策、工业/管理应用。"
+        casTier:"中科院一区", jcrQuartile:"JCR Q1", abbr:"ESWA", name:"Expert Systems with Applications", ifactor:"7.5", ifYear:IF_YEAR, publisher:"Elsevier",
+        url:"https://www.editorialmanager.com/eswa/default.aspx", review:"double", reviewText:"双盲 / double-anonymized",
+        abstract:"≤250 词", length:"Word 单栏；LaTeX 可双栏；无统一硬性页数限制",
+        refs:"无强制上下限", keywords:"1–7 个", highlights:"鼓励，通常 3–5 条",
+        declarations:["CRediT","Funding","COI","Data","AI 使用声明"],
+        note:"需 title page 和匿名稿；偏应用型专家系统、智能决策、工业/管理应用。",
+        scopeTags:["expert system","application","decision support","applied machine learning","business intelligence","intelligent decision","engineering"],
+        minKeywords:1, maxKeywords:7, doubleBlind:true
       },
       {
-        tier: "一区",
-        abbr: "INS",
-        name: "Information Sciences",
-        ifactor: "6.8",
-        publisher: "Elsevier",
-        url: "https://submit.elsevier.com/INS",
-        review: "single",
-        reviewText: "单盲 / single-anonymized",
-        abstract: "建议 ≤200 词；通用要求 ≤250 词",
-        length: "实验类建议 ≤40 页；理论类建议 ≤45 页；Word 单栏，LaTeX 可双栏",
-        refs: "无明确上下限，建议 DOI",
-        keywords: "1–7 个",
-        highlights: "鼓励，通常 3–5 条",
-        declarations: ["CRediT", "Funding", "COI", "Data", "AI 使用声明"],
-        note: "需清晰章节编号和 Conclusions；注意图表数量建议限制。"
+        casTier:"中科院一区", jcrQuartile:"JCR Q1", abbr:"INS", name:"Information Sciences", ifactor:"6.8", ifYear:IF_YEAR, publisher:"Elsevier",
+        url:"https://submit.elsevier.com/INS", review:"single", reviewText:"单盲 / single-anonymized",
+        abstract:"建议 ≤200 词；通用要求 ≤250 词", length:"实验类建议 ≤40 页；理论类建议 ≤45 页；Word 单栏，LaTeX 可双栏",
+        refs:"无明确上下限，建议 DOI", keywords:"1–7 个", highlights:"鼓励，通常 3–5 条",
+        declarations:["CRediT","Funding","COI","Data","AI 使用声明"],
+        note:"需清晰章节编号和 Conclusions；注意图表数量建议限制。",
+        scopeTags:["information sciences","machine learning","data mining","optimization","fuzzy systems","decision making","intelligent systems"],
+        maxPages:40, minKeywords:1, maxKeywords:7
       },
       {
-        tier: "一区",
-        abbr: "TMM",
-        name: "IEEE Transactions on Multimedia",
-        ifactor: "9.7",
-        publisher: "IEEE",
-        url: "https://mc.manuscriptcentral.com/tmm-ieee",
-        review: "single",
-        reviewText: "单盲 / single-anonymized",
-        abstract: "150–250 词",
-        length: "IEEE 双栏 10pt；Regular 初稿 ≤10 页，修改稿 ≤14 页",
-        refs: "无强制范围，应充分引用相关文献",
-        keywords: "Index Terms 建议 3–5 个",
-        highlights: "IEEE 通常无 Highlights 要求",
-        declarations: ["Funding", "可选作者分工"],
-        note: "稿件保留作者姓名、单位和联系方式；补充材料最多 4 页。"
+        casTier:"中科院一区", jcrQuartile:"JCR Q1", abbr:"TMM", name:"IEEE Transactions on Multimedia", ifactor:"9.7", ifYear:IF_YEAR, publisher:"IEEE",
+        url:"https://mc.manuscriptcentral.com/tmm-ieee", review:"single", reviewText:"单盲 / single-anonymized",
+        abstract:"150–250 词", length:"IEEE 双栏 10pt；Regular 初稿 ≤10 页，修改稿 ≤14 页",
+        refs:"无强制范围，应充分引用相关文献", keywords:"Index Terms 建议 3–5 个", highlights:"IEEE 通常无 Highlights 要求",
+        declarations:["Funding","可选作者分工"], note:"稿件保留作者姓名、单位和联系方式；补充材料最多 4 页。",
+        scopeTags:["multimedia","video","audio","image","multimodal","media analysis","content understanding"],
+        maxPages:10, minKeywords:3, maxKeywords:5
       },
       {
-        tier: "一区",
-        abbr: "TCSVT",
-        name: "IEEE Transactions on Circuits and Systems for Video Technology",
-        ifactor: "11.1",
-        publisher: "IEEE",
-        url: "https://mc.manuscriptcentral.com/tcsvt",
-        review: "single",
-        reviewText: "单盲 / single-anonymized",
-        abstract: "150–200 词",
-        length: "Transactions Paper ≤14 页；Letter ≤5 页；IEEE 双栏",
-        refs: "无强制范围；需说明与已有工作的区别",
-        keywords: "建议 3–5 个，不写成官方硬性",
-        highlights: "IEEE 通常无 Highlights 要求",
-        declarations: ["Funding", "可选作者分工"],
-        note: "原创整体相似度 ≤30%；会议扩展版相似度 ≤50%，需实质新增。"
+        casTier:"中科院一区", jcrQuartile:"JCR Q1", abbr:"TCSVT", name:"IEEE Transactions on Circuits and Systems for Video Technology", ifactor:"11.1", ifYear:IF_YEAR, publisher:"IEEE",
+        url:"https://mc.manuscriptcentral.com/tcsvt", review:"single", reviewText:"单盲 / single-anonymized",
+        abstract:"150–200 词", length:"Transactions Paper ≤14 页；Letter ≤5 页；IEEE 双栏",
+        refs:"无强制范围；需说明与已有工作的区别", keywords:"建议 3–5 个，不写成官方硬性",
+        highlights:"IEEE 通常无 Highlights 要求", declarations:["Funding","可选作者分工"],
+        note:"需满足 IEEE / TCSVT 对重复发表、会议扩展版和文本重叠的要求；会议扩展版需有实质新增贡献，并在投稿时说明差异。",
+        scopeTags:["video technology","video processing","video coding","circuits systems","visual computing","multimedia"],
+        maxPages:14, minKeywords:3, maxKeywords:5
       },
       {
-        tier: "一区",
-        abbr: "TPAMI",
-        name: "IEEE Transactions on Pattern Analysis and Machine Intelligence",
-        ifactor: "18.6",
-        publisher: "IEEE Computer Society",
-        url: "https://mc.manuscriptcentral.com/tpami-cs",
-        review: "single",
-        reviewText: "默认单盲 / single-anonymous",
-        abstract: "Regular 100–200 词",
-        length: "Regular 标准 12 页，可到 18 页；Short 8 页；Survey 20 页",
-        refs: "无强制数量",
-        keywords: "按系统选择相关关键词",
-        highlights: "IEEE 通常无 Highlights 要求",
-        declarations: ["Funding", "Acknowledgment"],
-        note: "摘要不应含数学表达式或参考文献；补充材料单独提交。"
+        casTier:"中科院一区", jcrQuartile:"JCR Q1", abbr:"TPAMI", name:"IEEE Transactions on Pattern Analysis and Machine Intelligence", ifactor:"18.6", ifYear:IF_YEAR, publisher:"IEEE Computer Society",
+        url:"https://mc.manuscriptcentral.com/tpami-cs", review:"single", reviewText:"默认单盲 / single-anonymous",
+        abstract:"Regular 100–200 词",
+        length:"Regular 通常 12 页标准长度；格式化稿件上限按 IEEE CS / TPAMI 当前指南，Regular 不应超过 18 formatted pages",
+        refs:"无强制数量", keywords:"按系统选择相关关键词", highlights:"IEEE 通常无 Highlights 要求",
+        declarations:["Funding","Acknowledgment"],
+        note:"摘要不应含数学表达式或参考文献；补充材料单独提交；最终页数、超页费和文章类型以 TPAMI 当前 Author Guidelines 为准。",
+        scopeTags:["pattern analysis","machine intelligence","computer vision","machine learning","deep learning","recognition","vision"],
+        maxPages:18
       },
       {
-        tier: "一区",
-        abbr: "TIP",
-        name: "IEEE Transactions on Image Processing",
-        ifactor: "13.7",
-        publisher: "IEEE SPS",
-        url: "https://mc.manuscriptcentral.com/sps-ieee",
-        review: "single",
-        reviewText: "单盲 / single-anonymized",
-        abstract: "150–250 词",
-        length: "Regular 初稿 ≤13 页；修改稿 ≤16 页；IEEE 双栏 10pt",
-        refs: "无强制范围，需充分引用相关工作",
-        keywords: "建议 3–5 个",
-        highlights: "IEEE 通常无 Highlights 要求",
-        declarations: ["Funding", "Acknowledgment"],
-        note: "补充材料建议 ≤6 页双栏；正式出版超过 10 页有强制超页费。"
+        casTier:"中科院一区", jcrQuartile:"JCR Q1", abbr:"TIP", name:"IEEE Transactions on Image Processing", ifactor:"13.7", ifYear:IF_YEAR, publisher:"IEEE SPS",
+        url:"https://mc.manuscriptcentral.com/sps-ieee", review:"single", reviewText:"单盲 / single-anonymized",
+        abstract:"150–250 词", length:"Regular 初稿 ≤13 页；修改稿 ≤16 页；IEEE 双栏 10pt",
+        refs:"无强制范围，需充分引用相关工作", keywords:"建议 3–5 个", highlights:"IEEE 通常无 Highlights 要求",
+        declarations:["Funding","Acknowledgment"], note:"补充材料建议 ≤6 页双栏；正式出版超过 10 页有强制超页费。",
+        scopeTags:["image processing","image analysis","image restoration","segmentation","visual signal processing","computer vision"],
+        maxPages:13, minKeywords:3, maxKeywords:5
       },
       {
-        tier: "一区",
-        abbr: "TIFS",
-        name: "IEEE Transactions on Information Forensics and Security",
-        ifactor: "8.0",
-        publisher: "IEEE SPS",
-        url: "https://mc.manuscriptcentral.com/sps-ieee",
-        review: "single",
-        reviewText: "单盲 / single-anonymized",
-        abstract: "150–250 词",
-        length: "Regular 初稿 ≤13 页；修改稿 ≤16 页；IEEE 双栏 10pt",
-        refs: "无强制范围，需覆盖安全、取证、隐私、生物识别等相关文献",
-        keywords: "建议 3–5 个",
-        highlights: "IEEE 通常无 Highlights 要求",
-        declarations: ["Funding", "Data/Code/Ethics 如适用"],
-        note: "不是双盲匿名投稿；补充材料建议 ≤6 页双栏。"
+        casTier:"中科院一区", jcrQuartile:"JCR Q1", abbr:"TIFS", name:"IEEE Transactions on Information Forensics and Security", ifactor:"8.0", ifYear:IF_YEAR, publisher:"IEEE SPS",
+        url:"https://mc.manuscriptcentral.com/sps-ieee", review:"single", reviewText:"单盲 / single-anonymized",
+        abstract:"150–250 词", length:"Regular 初稿 ≤13 页；修改稿 ≤16 页；IEEE 双栏 10pt",
+        refs:"无强制范围，需覆盖安全、取证、隐私、生物识别等相关文献", keywords:"建议 3–5 个",
+        highlights:"IEEE 通常无 Highlights 要求", declarations:["Funding","Data/Code/Ethics 如适用"],
+        note:"不是双盲匿名投稿；补充材料建议 ≤6 页双栏。",
+        scopeTags:["forensics","security","privacy","biometrics","information security","surveillance","authentication"],
+        maxPages:13, minKeywords:3, maxKeywords:5
       },
       {
-        tier: "一区",
-        abbr: "IJCV",
-        name: "International Journal of Computer Vision",
-        ifactor: "9.3",
-        publisher: "Springer Nature",
-        url: "https://www.editorialmanager.com/visi/default.aspx",
-        review: "single",
-        reviewText: "按系统要求，通常非匿名 title page",
-        abstract: "150–250 词",
-        length: "Regular ≤25 个 journal pages；Short ≤10；Survey ≤30",
-        refs: "无强制数量；作者-年份格式，建议 DOI",
-        keywords: "4–6 个",
-        highlights: "未见常规强制 Highlights",
-        declarations: ["Funding", "COI", "Data", "Ethics", "AI 说明"],
-        note: "推荐 LaTeX Springer Nature 模板 [iicol]；original research 必须有 Data Availability Statement。"
+        casTier:"中科院一区", jcrQuartile:"JCR Q1", abbr:"IJCV", name:"International Journal of Computer Vision", ifactor:"9.3", ifYear:IF_YEAR, publisher:"Springer Nature",
+        url:"https://www.editorialmanager.com/visi/default.aspx", review:"single", reviewText:"单盲 / 非双盲，以系统为准",
+        abstract:"150–250 词", length:"Regular ≤25 个 journal pages；Short ≤10；Survey ≤30",
+        refs:"无强制数量；作者-年份格式，建议 DOI", keywords:"4–6 个", highlights:"未见常规强制 Highlights",
+        declarations:["Funding","COI","Data","Ethics","AI 说明"],
+        note:"推荐 LaTeX Springer Nature 模板 [iicol]；original research 通常需 Data Availability Statement。",
+        scopeTags:["computer vision","image understanding","visual recognition","3d vision","segmentation","detection","tracking"],
+        maxPages:25, minKeywords:4, maxKeywords:6
       },
       {
-        tier: "一区",
-        abbr: "TNNLS",
-        name: "IEEE Transactions on Neural Networks and Learning Systems",
-        ifactor: "8.9",
-        publisher: "IEEE CIS",
-        url: "https://ieee.atyponrex.com/journal/tnnls",
-        review: "double",
-        reviewText: "双盲 / double-anonymous",
-        abstract: "通常 150–250 词",
-        length: "Full 超过 10 页、Survey 超过 15 页、Brief 超过 6 页有超页费；最大 Full 15 / Survey 21 / Brief 9",
-        refs: "无强制数量，需覆盖神经网络与学习系统相关文献",
-        keywords: "4–5 个 Index Terms",
-        highlights: "IEEE 通常无 Highlights 要求",
-        declarations: ["Funding", "AI 使用需在 Acknowledgment 披露"],
-        note: "投稿时需匿名化；投稿后文章类型不会自动转换。"
+        casTier:"中科院一区", jcrQuartile:"JCR Q1", abbr:"TNNLS", name:"IEEE Transactions on Neural Networks and Learning Systems", ifactor:"8.9", ifYear:IF_YEAR, publisher:"IEEE CIS",
+        url:"https://ieee.atyponrex.com/journal/tnnls", review:"double", reviewText:"双盲 / double-anonymous",
+        abstract:"通常 150–250 词", length:"Full 超过 10 页、Survey 超过 15 页、Brief 超过 6 页有超页费；最大 Full 15 / Survey 21 / Brief 9",
+        refs:"无强制数量，需覆盖神经网络与学习系统相关文献", keywords:"4–5 个 Index Terms",
+        highlights:"IEEE 通常无 Highlights 要求", declarations:["Funding","AI 使用需在 Acknowledgment 披露"],
+        note:"投稿时需匿名化；投稿后文章类型不会自动转换。",
+        scopeTags:["neural networks","learning systems","machine learning","deep learning","theory","adaptive systems","learning"],
+        maxPages:15, minKeywords:4, maxKeywords:5, doubleBlind:true
       },
       {
-        tier: "二区",
-        abbr: "JSEN",
-        name: "IEEE Sensors Journal",
-        ifactor: "4.5",
-        publisher: "IEEE Sensors Council",
-        url: "https://ieee.atyponrex.com/journal/sensors",
-        review: "single",
-        reviewText: "单盲 / single-anonymous",
-        abstract: "通常 150–250 词",
-        length: "普通投稿通常 ≤8 页；Review 超过 12 页有超页费",
-        refs: "无强制上下限",
-        keywords: "需选择期刊关键词分类 category",
-        highlights: "IEEE 通常无 Highlights 要求",
-        graphical: true,
-        declarations: ["ORCID", "Funding", "AI 使用披露"],
-        note: "Graphical Abstract 当前为强制；Regular 超过 8 页每页约 175 美元。"
+        casTier:"中科院二区", jcrQuartile:"JCR Q1", abbr:"JSEN", name:"IEEE Sensors Journal", ifactor:"4.5", ifYear:IF_YEAR, publisher:"IEEE Sensors Council",
+        url:"https://ieee.atyponrex.com/journal/sensors", review:"single", reviewText:"单盲 / single-anonymous",
+        abstract:"通常 150–250 词", length:"Regular 通常建议 ≤8 页；Review 类稿件页数和超页费以当前 Author Guide 为准",
+        refs:"无强制上下限", keywords:"需在投稿系统中选择传感器相关 category / keywords",
+        highlights:"IEEE 通常无 Highlights 要求", graphical:true, graphicalText:"Graphical Abstract 必需",
+        declarations:["ORCID","Funding","AI 使用披露"],
+        note:"Graphical Abstract 当前为强制；Regular 超过 8 页通常涉及超页费，金额以 IEEE Sensors Journal 当前页面为准。",
+        scopeTags:["sensors","sensing","sensor networks","measurement","signal processing","iot","wearable"],
+        maxPages:8
       },
       {
-        tier: "二区",
-        abbr: "NEUCOM",
-        name: "Neurocomputing",
-        ifactor: "6.5",
-        publisher: "Elsevier",
-        url: "https://www.editorialmanager.com/neucom/default.aspx",
-        review: "single",
-        reviewText: "单盲 / single-anonymized",
-        abstract: "≤250 词",
-        length: "Word 单栏；LaTeX 可双栏；普通 Article 未见严格页数上限",
-        refs: "无强制上下限；建议 DOI",
-        keywords: "1–7 个",
-        highlights: "鼓励，3–5 条，每条 ≤85 字符",
-        declarations: ["CRediT", "Funding", "COI", "Data", "AI 使用声明"],
-        note: "Elsevier research data Option C；生成式 AI 通常不得创建或修改图像。"
+        casTier:"中科院二区", jcrQuartile:"JCR Q1", abbr:"NEUCOM", name:"Neurocomputing", ifactor:"6.5", ifYear:IF_YEAR, publisher:"Elsevier",
+        url:"https://www.editorialmanager.com/neucom/default.aspx", review:"single", reviewText:"单盲 / single-anonymized",
+        abstract:"≤250 词", length:"Word 单栏；LaTeX 可双栏；普通 Article 未见严格页数上限",
+        refs:"无强制上下限；建议 DOI", keywords:"1–7 个", highlights:"鼓励，3–5 条，每条 ≤85 字符",
+        declarations:["CRediT","Funding","COI","Data","AI 使用声明"],
+        note:"适合神经网络、学习系统、机器学习、计算智能与模式识别；普通 Article 未见统一硬性页数上限，投稿前仍需核对当前 Guide for Authors。",
+        scopeTags:["neural networks","neurocomputing","machine learning","deep learning","computational intelligence","pattern recognition"],
+        minKeywords:1, maxKeywords:7
       },
       {
-        tier: "二区",
-        abbr: "ASOC",
-        name: "Applied Soft Computing",
-        ifactor: "6.6",
-        publisher: "Elsevier",
-        url: "https://submit.elsevier.com/ASOC",
-        review: "single",
-        reviewText: "单盲 / single-anonymized",
-        abstract: "≤250 词",
-        length: "Technical Paper 通常 20–30 页，最多 50 页；Letter ≤3500 词",
-        refs: "无强制上下限；建议 DOI",
-        keywords: "1–7 个",
-        highlights: "鼓励，3–5 条，每条 ≤85 字符",
-        graphical: true,
-        declarations: ["CRediT", "Funding", "COI", "Data", "AI 使用声明"],
-        note: "Graphical Abstract 投稿时必需提交；适合软计算、进化算法、模糊系统。"
-      },
-
-      {
-  tier: "二区",
-  abbr: "SIGPRO",
-  name: "Signal Processing",
-  ifactor: "3.6",
-  publisher: "Elsevier",
-  url: "https://submit.elsevier.com/SIGPRO",
-  review: "single",
-  reviewText: "单盲 / single-anonymized",
-  abstract: "≤250 词，需说明研究目的、主要结果和主要结论，避免引用和非常用缩写",
-  length: "Original Research Articles ≤30 页，single column、double spaced，含图表和参考文献；Review Articles 通常 30–60 页；Short Communications ≤10 页",
-  refs: "无明确强制上下限；正文引用与参考文献列表需一一对应，格式一致，建议 DOI",
-  keywords: "1–7 个",
-  highlights: "必需，3–5 条，每条 ≤85 字符，需作为单独可编辑文件提交",
-  graphical: true,
-  declarations: ["CRediT", "Funding", "COI", "Data", "AI 使用声明"],
-  note: "Word 投稿 single-column，LaTeX 可 double-column；Graphical Abstract 鼓励提交；需提供 Data availability statement，生成式 AI 使用需在参考文献前声明。"
-},
-{
-  tier: "二区",
-  abbr: "ASEJ",
-  name: "Ain Shams Engineering Journal",
-  ifactor: "5.9",
-  publisher: "Elsevier",
-  url: "https://submit.elsevier.com/ASEJ",
-  review: "double",
-  reviewText: "双盲 / double-anonymized",
-  abstract: "官方指南未见明确词数上限；应简明 factual，概述研究目的、主要结果和主要结论",
-  length: "图表放在正文适当位置；12 号字体、single space；稿件文件含图表限制为 10 页",
-  refs: "无明确强制上下限；按出现顺序编号，方括号格式；网页需 URL 和访问日期，建议 DOI",
-  keywords: "最多 6 个，American spelling，避免过泛、复数和多概念关键词",
-  highlights: "where applicable；官方未见强制条数或字符数要求",
-  declarations: ["CRediT", "Funding", "COI", "AI 使用声明"],
-  note: "需单独提交 title page 和匿名主文稿；官方指南未见明确强制 Data availability statement 条目；若使用生成式 AI，需在参考文献前加入 AI 使用声明。"
-},
-
-      {
-        tier: "三区",
-        abbr: "IVC",
-        name: "Image and Vision Computing",
-        ifactor: "4.2",
-        publisher: "Elsevier",
-        url: "https://submit.elsevier.com/IMAVIS",
-        review: "single",
-        reviewText: "单盲 / single-anonymized",
-        abstract: "≤250 词",
-        length: "Word 单栏；LaTeX 可双栏；普通 Article 未见严格页数上限",
-        refs: "无强制数量；按出现顺序编号，建议 DOI",
-        keywords: "1–7 个",
-        highlights: "必需，3–5 条，每条 ≤85 字符",
-        graphical: true,
-        declarations: ["CRediT", "Funding", "COI", "Data", "AI 使用声明"],
-        note: "Graphical Abstract 必需作为单独文件上传；采用 Elsevier research data Option C。"
+        casTier:"中科院二区", jcrQuartile:"JCR Q1", abbr:"ASOC", name:"Applied Soft Computing", ifactor:"6.6", ifYear:IF_YEAR, publisher:"Elsevier",
+        url:"https://submit.elsevier.com/ASOC", review:"single", reviewText:"单盲 / single-anonymized",
+        abstract:"≤250 词", length:"Technical Paper 通常 20–30 页，最多 50 页；Letter ≤3500 词",
+        refs:"无强制上下限；建议 DOI", keywords:"1–7 个", highlights:"鼓励，3–5 条，每条 ≤85 字符",
+        graphical:true, graphicalText:"Graphical Abstract 必需", declarations:["CRediT","Funding","COI","Data","AI 使用声明"],
+        note:"Graphical Abstract 投稿时必需；Highlights 鼓励但非强制；适合软计算、模糊系统、进化算法、群智能与优化。",
+        scopeTags:["soft computing","fuzzy systems","evolutionary computation","optimization","metaheuristic","neural networks","swarm intelligence"],
+        maxPages:50, minKeywords:1, maxKeywords:7
       },
       {
-        tier: "三区",
-        abbr: "APIN",
-        name: "Applied Intelligence",
-        ifactor: "3.5",
-        publisher: "Springer Nature",
-        url: "https://www.editorialmanager.com/apin/default.aspx",
-        review: "system",
-        reviewText: "以投稿系统当前要求为准",
-        abstract: "150–250 词",
-        length: "推荐 Springer Nature LaTeX 模板；普通 Article 未见严格页数上限",
-        refs: "无强制数量；方括号编号，建议 DOI",
-        keywords: "4–6 个",
-        highlights: "未见常规强制 Highlights / Graphical Abstract",
-        declarations: ["Funding", "COI", "Ethics", "Data/Code", "AI 说明"],
-        note: "title page 要含作者信息；所有 original research 必须有 Data Availability Statement。"
+        casTier:"中科院二区", jcrQuartile:"JCR Q2", abbr:"SIGPRO", name:"Signal Processing", ifactor:"3.6", ifYear:IF_YEAR, publisher:"Elsevier / EURASIP",
+        url:"https://submit.elsevier.com/SIGPRO", review:"single", reviewText:"单盲 / single-anonymized",
+        abstract:"≤250 词，需简明说明研究目的、主要结果和主要结论",
+        length:"Original Research ≤30 页；Review 通常 30–60 页；Short Communications ≤10 页；single column、double spaced，页数通常包含图表和参考文献",
+        refs:"无明确强制上下限；正文引用与参考文献列表需一一对应，建议 DOI",
+        keywords:"1–7 个", highlights:"必需，3–5 条，每条 ≤85 字符，作为单独可编辑文件提交",
+        graphical:true, graphicalText:"Graphical Abstract 鼓励", declarations:["CRediT","Funding","COI","Data","AI 使用声明"],
+        note:"采用 research data Option C，需说明数据可用性；生成式 AI 使用需在参考文献前声明。",
+        scopeTags:["signal processing","digital signal processing","audio","speech","image signal","filtering","estimation"],
+        maxPages:30, minKeywords:1, maxKeywords:7, highlightsRequired:true
       },
       {
-        tier: "三区",
-        abbr: "IEEE Access",
-        name: "IEEE Access",
-        ifactor: "3.6",
-        publisher: "IEEE",
-        url: "https://ieee.atyponrex.com/journal/ieee-access",
-        review: "single",
-        reviewText: "非双盲，作者信息保留",
-        abstract: "最多 250 词，建议 150–250",
-        length: "无硬性页数上限；强烈建议 ≤20 页；超过通常需 EIC 预咨询",
-        refs: "无强制范围；应相关、准确",
-        keywords: "系统要求 3–10 个 manuscript keywords",
-        highlights: "IEEE 通常无 Highlights 要求",
-        declarations: ["Funding", "AI 使用披露", "视频材料随稿审"],
-        note: "需同时提交源文件和 PDF，内容一致；开放获取，速度较快但 APC 需关注。"
+        casTier:"中科院二区", jcrQuartile:"JCR Q1", abbr:"ASEJ", name:"Ain Shams Engineering Journal", ifactor:"5.9", ifYear:IF_YEAR, publisher:"Ain Shams University / Elsevier",
+        url:"https://submit.elsevier.com/ASEJ", review:"double", reviewText:"双盲 / double-anonymized",
+        abstract:"官方未见明确词数上限；应简明 factual，概述目的、主要结果和结论",
+        length:"图表放在正文适当位置；12 号字体、single space；稿件文件含图表限制为 10 页",
+        refs:"无明确强制上下限；按出现顺序编号，方括号格式；网页需 URL 和访问日期，建议 DOI",
+        keywords:"最多 6 个；使用 American spelling", highlights:"where applicable；官方未见常规强制条数或字符数要求",
+        declarations:["CRediT","Funding","COI","AI 使用声明"],
+        note:"需单独提交 title page 和匿名主文稿；主文稿含图表限制为 10 页；官方指南未见明确强制 Data Availability Statement，但仍建议准备数据可用性说明。",
+        scopeTags:["engineering","engineering application","applied engineering","civil engineering","mechanical","electrical","ai engineering"],
+        maxPages:10, maxKeywords:6, doubleBlind:true
       },
       {
-  tier: "三区",
-  abbr: "Connection Science",
-  name: "Connection Science",
-  ifactor: "待核对",
-  publisher: "Taylor & Francis",
-  url: "https://www.tandfonline.com/action/authorSubmission?show=instructions&journalCode=ccos20",
-  review: "double",
-  reviewText: "双匿名 / double-anonymous",
-  abstract: "官网公开页面未查到强制摘要词数上限，建议约 150–250 词并保持 factual",
-  length: "正文字数、页数、图表数未见明确强制上限；建议完整、简洁说明研究",
-  refs: "无明确数量上下限；文中引用与参考文献列表必须对应且格式一致，建议 DOI",
-  keywords: "官网未见强制说明，建议 3–6 个",
-  highlights: "未见强制 Highlights / Graphical Abstract 要求",
-  declarations: ["CRediT", "Funding", "COI", "Data", "AI 使用声明"],
-  note: "投稿需英文；Taylor & Francis 通常接受 Word / LaTeX；若期刊采用双匿名评审，需提交匿名稿与非匿名稿。"
-},
-{
-  tier: "三区",
-  abbr: "Sci Rep",
-  name: "Scientific Reports",
-  ifactor: "待核对",
-  publisher: "Springer Nature",
-  url: "https://www.nature.com/srep/",
-  review: "single",
-  reviewText: "单匿名 / single-anonymized",
-  abstract: "≤200 词，不分小标题，不含参考文献，应概述背景、主要结果和意义",
-  length: "通常无严格硬限制；强烈建议 Article ≤11 个排版页，正文主体 ≤4500 词；Display items 通常 ≤8 个",
-  refs: "建议 ≤60 篇但不严格执行；采用 Nature 数字引用格式",
-  keywords: "最多 6 个",
-  highlights: "不支持 Graphical Abstract；未见 Highlights 要求",
-  declarations: ["Author Contribution", "Funding", "COI", "Data", "Ethics", "AI 说明"],
-  note: "初投稿可用 Word、LaTeX 或 PDF；修回稿正文需 Word 或 LaTeX；需 Author Contribution、Competing Interests、Data Availability Statement。"
-},
-{
-  tier: "三区",
-  abbr: "PLOS ONE",
-  name: "PLOS ONE",
-  ifactor: "待核对",
-  publisher: "PLOS",
-  url: "https://journals.plos.org/plosone/",
-  review: "single",
-  reviewText: "单匿名 / single-anonymized",
-  abstract: "≤300 词，应说明研究目标、方法概况、最重要结果及意义，不应含引用",
-  length: "Research Article 无强制字数、图数或补充材料数量限制；正文双倍行距，不允许多栏排版，需页码和连续行号",
-  refs: "Vancouver / ICMJE 数字顺序格式，方括号编号；无明确数量上限，DOI 可作为卷页信息补充或替代",
-  keywords: "官网投稿指南未要求传统关键词，通过 PLOS taxonomy / Subject Areas 分类",
-  highlights: "Striking Image 可选；未见强制 Highlights / Graphical Abstract 要求",
-  declarations: ["CRediT", "Funding", "COI", "Data", "Ethics", "AI 说明"],
-  note: "需 full title 和 short title；full title ≤250 字符，short title ≤100 字符；投稿系统中需提供作者 CRediT、Funding、Competing interests 和 Data Availability。"
-}
-
+        casTier:"中科院三区", jcrQuartile:"JCR Q1/Q2", abbr:"IVC", name:"Image and Vision Computing", ifactor:"4.2", ifYear:IF_YEAR, publisher:"Elsevier",
+        url:"https://submit.elsevier.com/IMAVIS", review:"single", reviewText:"单盲 / single-anonymized",
+        abstract:"≤250 词", length:"普通 Article 未见统一严格页数上限；Opinion Column 稿件不超过 2 页",
+        refs:"无强制数量；建议 DOI；引用与参考文献列表需一致", keywords:"1–7 个",
+        highlights:"通常需提供 Highlights，3–5 条，每条 ≤85 字符",
+        graphical:true, graphicalText:"Graphical Abstract 要求需按当前 Guide for Authors 核对，可能为鼓励或必需",
+        declarations:["CRediT","Funding","COI","Data","AI 使用声明"],
+        note:"适合图像解释、计算机视觉、目标识别、跟踪、场景建模、SLAM、生物识别等方向；图形摘要要求投稿前再次核对。",
+        scopeTags:["image","vision","computer vision","image analysis","pattern recognition","visual computing"],
+        minKeywords:1, maxKeywords:7, highlightsRequired:true
+      },
+      {
+        casTier:"中科院三区", jcrQuartile:"JCR Q2", abbr:"APIN", name:"Applied Intelligence", ifactor:"3.5", ifYear:IF_YEAR, publisher:"Springer Nature",
+        url:"https://www.editorialmanager.com/apin/default.aspx", review:"system", reviewText:"以 Springer Nature / Editorial Manager 当前要求为准",
+        abstract:"150–250 词", length:"推荐 Springer Nature LaTeX 模板；普通 Article 未见严格页数上限",
+        refs:"无强制数量；方括号编号，建议 DOI", keywords:"4–6 个",
+        highlights:"未见常规强制 Highlights / Graphical Abstract", declarations:["Funding","COI","Ethics","Data/Code","AI 说明"],
+        note:"title page 通常包含作者信息；original research 通常需 Data Availability Statement；审稿匿名方式以投稿系统当前设置为准。",
+        scopeTags:["applied intelligence","artificial intelligence","machine learning","intelligent systems","data mining","optimization"],
+        minKeywords:4, maxKeywords:6
+      },
+      {
+        casTier:"中科院三区", jcrQuartile:"JCR Q2", abbr:"IEEE Access", name:"IEEE Access", ifactor:"3.6", ifYear:IF_YEAR, publisher:"IEEE",
+        url:"https://ieee.atyponrex.com/journal/ieee-access", review:"single", reviewText:"非双盲，作者信息保留",
+        abstract:"最多 250 词，建议 150–250", length:"无硬性页数上限；官方强烈建议 ≤20 页，超过较多时建议提前咨询或充分压缩",
+        refs:"无强制范围；应相关、准确", keywords:"系统要求 3–10 个 manuscript keywords",
+        highlights:"IEEE 通常无 Highlights 要求", declarations:["Funding","AI 使用披露","视频材料随稿审"],
+        note:"需同时提交源文件和 PDF，二者内容一致；作者信息保留；开放获取，需关注 APC。",
+        scopeTags:["multidisciplinary","engineering","computer science","electrical engineering","application","open access"],
+        maxPages:20, minKeywords:3, maxKeywords:10
+      },
+      {
+        casTier:"中科院三区", jcrQuartile:"JCR Q2", abbr:"CONN SCI", name:"Connection Science", ifactor:"3.4", ifYear:IF_YEAR, publisher:"Taylor & Francis",
+        url:"https://www.tandfonline.com/action/authorSubmission?show=instructions&journalCode=ccos20",
+        review:"double", reviewText:"双匿名 / double-anonymous，以当前 Instructions for Authors 为准",
+        abstract:"官网公开页面未见明确强制摘要词数上限，建议约 150–250 词并保持 factual",
+        length:"正文字数、页数、图表数未见明确统一硬性上限", refs:"无明确数量上下限；建议 DOI",
+        keywords:"官网未见强制说明，建议 3–6 个", highlights:"未见常规强制 Highlights / Graphical Abstract 要求",
+        declarations:["CRediT","Funding","COI","Data","AI 使用声明"],
+        note:"Taylor & Francis 期刊；自 2022 年起为 full Open Access；双匿名评审时需准备匿名稿与非匿名稿，具体匿名要求以投稿系统为准。",
+        scopeTags:["connection science","cognitive science","artificial intelligence","neural networks","adaptive behavior","robotics"],
+        minKeywords:3, maxKeywords:6, doubleBlind:true
+      },
+      {
+        casTier:"中科院三区", jcrQuartile:"JCR Q1", abbr:"Sci Rep", name:"Scientific Reports", ifactor:"3.9", ifYear:IF_YEAR, publisher:"Nature Portfolio / Springer Nature",
+        url:"https://www.nature.com/srep/author-instructions", review:"single", reviewText:"单匿名 / single-anonymized",
+        abstract:"≤200 词；非结构式；不含参考文献",
+        length:"Article 主文建议 ≤4500 词；通常建议 ≤11 个排版页；Display items 数量应与篇幅匹配，通常建议 ≤8 个",
+        refs:"建议 ≤60 篇但不严格执行；采用 Nature 数字引用格式", keywords:"最多 6 个",
+        highlights:"不支持 Graphical Abstract；未见 Highlights 要求",
+        declarations:["Author Contribution","Funding","COI","Data","Ethics","AI 说明"],
+        note:"主要发表 Article 和 Registered Report；需 Author Contribution、Competing Interests、Data Availability Statement。",
+        scopeTags:["multidisciplinary","general science","scientific reports","biology","engineering","computer science","data"],
+        maxPages:11, maxRefs:60, maxKeywords:6
+      },
+      {
+        casTier:"中科院三区", jcrQuartile:"JCR Q2", abbr:"PLOS ONE", name:"PLOS ONE", ifactor:"2.6", ifYear:IF_YEAR, publisher:"PLOS",
+        url:"https://journals.plos.org/plosone/s/submission-guidelines", review:"single", reviewText:"单匿名 / single-anonymized",
+        abstract:"≤300 词；说明研究目标、方法概况、重要结果及意义；尽量避免引用和缩写",
+        length:"Research Article 无强制字数、图数或补充材料数量限制；正文双倍行距；不允许多栏排版",
+        refs:"Vancouver / ICMJE 数字顺序格式；无明确数量上限，建议 DOI",
+        keywords:"不使用传统关键词要求；通过 PLOS taxonomy / Subject Areas 分类",
+        highlights:"Striking Image 可选；未见强制 Highlights / Graphical Abstract 要求",
+        declarations:["CRediT","Funding","COI","Data","Ethics","AI 说明"],
+        note:"需 full title 和 short title；投稿系统中填写 CRediT、Funding、COI 和 Data Availability。",
+        scopeTags:["multidisciplinary","open science","biology","medicine","engineering","computer science","data availability"]
+      }
     ];
 
+    const statuses = ["Writing", "Formatting", "Submitted", "Under Review", "Revision", "Accepted", "Rejected"];
     const grid = document.getElementById("journalGrid");
     const searchInput = document.getElementById("searchInput");
     const resultCount = document.getElementById("resultCount");
@@ -1130,11 +1126,28 @@
     const chips = document.querySelectorAll(".chip");
 
     let currentFilter = "all";
+    let selectedCompare = new Set();
+    let manuscripts = loadLS("aihub_manuscripts_cyber", []);
+    let checklistStore = loadLS("aihub_checklists_cyber", {});
+    let currentChecklistAbbr = null;
+
+    function loadLS(key, fallback) {
+      try { return JSON.parse(localStorage.getItem(key)) ?? fallback; }
+      catch { return fallback; }
+    }
+
+    function saveLS(key, value) {
+      localStorage.setItem(key, JSON.stringify(value));
+    }
+
+    function displayIF(j) {
+      return j.ifactor && j.ifactor !== "待核对" ? j.ifactor : "—";
+    }
 
     function badgeClass(j) {
-      if (j.tier === "一区") return "";
-      if (j.tier === "二区") return "q2";
-      return "q3";
+      if (j.casTier === "中科院二区") return "cas2";
+      if (j.casTier === "中科院三区") return "cas3";
+      return "";
     }
 
     function reviewTagClass(j) {
@@ -1143,21 +1156,27 @@
       return "warn";
     }
 
-    function render() {
+    function journalBlob(j) {
+      return [
+        j.casTier, j.jcrQuartile, j.abbr, j.name, j.publisher, j.reviewText, j.abstract,
+        j.length, j.refs, j.keywords, j.highlights, j.graphicalText, j.note,
+        j.ifactor, j.ifYear, ...(j.scopeTags || []), ...(j.declarations || [])
+      ].join(" ").toLowerCase();
+    }
+
+    function renderJournals() {
       const q = searchInput.value.trim().toLowerCase();
 
       const filtered = journals.filter(j => {
-        const blob = [
-          j.tier, j.abbr, j.name, j.publisher, j.reviewText, j.abstract,
-          j.length, j.refs, j.keywords, j.highlights, j.note,
-          ...(j.declarations || [])
-        ].join(" ").toLowerCase();
-
-        const matchSearch = !q || blob.includes(q);
+        const matchSearch = !q || journalBlob(j).includes(q);
         let matchFilter = true;
 
-        if (currentFilter === "一区" || currentFilter === "二区" || currentFilter === "三区") {
-          matchFilter = j.tier === currentFilter;
+        if (["中科院一区","中科院二区","中科院三区"].includes(currentFilter)) {
+          matchFilter = j.casTier === currentFilter;
+        } else if (currentFilter === "JCR Q1") {
+          matchFilter = j.jcrQuartile.includes("Q1");
+        } else if (currentFilter === "JCR Q2") {
+          matchFilter = j.jcrQuartile.includes("Q2");
         } else if (currentFilter === "single") {
           matchFilter = j.review === "single";
         } else if (currentFilter === "double") {
@@ -1169,24 +1188,25 @@
         return matchSearch && matchFilter;
       });
 
-      grid.innerHTML = filtered.map((j, idx) => `
-        <article class="journal" data-name="${j.name}">
+      grid.innerHTML = filtered.map(j => `
+        <article class="journal">
           <div class="topline">
-            <span class="rank ${badgeClass(j)}">${j.tier} · ${j.publisher}</span>
+            <span class="rank ${badgeClass(j)}">${j.casTier} · ${j.jcrQuartile}</span>
             <div class="ifbox">
               <span>JIF</span>
-              <strong>${j.ifactor}</strong>
+              <strong>${displayIF(j)}</strong>
             </div>
           </div>
 
           <h4>${j.name}</h4>
-          <div class="abbr">${j.abbr} · 投稿系统直达</div>
+          <div class="abbr">${j.abbr} · ${j.publisher} · ${j.ifYear}</div>
 
           <div class="tags">
             <span class="tag ${reviewTagClass(j)}">${j.reviewText}</span>
-            <span class="tag good">IF ${j.ifactor}</span>
-            ${j.graphical ? `<span class="tag warn">Graphical Abstract</span>` : ""}
-            ${(j.declarations || []).slice(0, 4).map(d => `<span class="tag">${d}</span>`).join("")}
+            <span class="tag good">${j.casTier}</span>
+            <span class="tag warn">${j.jcrQuartile}</span>
+            ${j.graphical ? `<span class="tag warn">${j.graphicalText || "Graphical Abstract"}</span>` : ""}
+            ${(j.declarations || []).slice(0, 3).map(d => `<span class="tag">${d}</span>`).join("")}
           </div>
 
           <div class="details">
@@ -1199,41 +1219,478 @@
 
           <div class="notes">${j.note}</div>
 
+          <label class="compare-box">
+            <input type="checkbox" ${selectedCompare.has(j.abbr) ? "checked" : ""} onchange="toggleCompare('${j.abbr}', this.checked)" />
+            加入对比
+          </label>
+
           <div class="actions">
-            <a class="submit" href="${j.url}" target="_blank" rel="noopener">立即投稿 ↗</a>
-            <button class="copy" title="复制期刊要求" onclick="copyJournal(${journals.indexOf(j)})">复制</button>
+            <a class="submit" href="${j.url}" target="_blank" rel="noopener">投稿 / 指南 ↗</a>
+            <button class="small-action" onclick="openChecklist('${j.abbr}')">Checklist</button>
+            <button class="small-action" onclick="copyJournal('${j.abbr}')">复制</button>
           </div>
         </article>
       `).join("");
 
       resultCount.textContent = `当前显示 ${filtered.length} / ${journals.length} 本`;
       emptyState.style.display = filtered.length ? "none" : "block";
+      updateCompareCount();
     }
 
-    function copyJournal(index) {
-      const j = journals[index];
+    function toggleCompare(abbr, checked) {
+      if (checked) selectedCompare.add(abbr);
+      else selectedCompare.delete(abbr);
+      updateCompareCount();
+    }
+
+    function updateCompareCount() {
+      document.getElementById("compareCount").textContent = `已选择 ${selectedCompare.size} 本`;
+    }
+
+    function clearCompare() {
+      selectedCompare.clear();
+      renderJournals();
+    }
+
+    function openCompareModal() {
+      const selected = journals.filter(j => selectedCompare.has(j.abbr));
+      if (!selected.length) {
+        alert("请先在期刊卡片中勾选至少一本期刊。");
+        return;
+      }
+
+      const fields = [
+        ["中科院分区", j => j.casTier],
+        ["JCR 分区", j => j.jcrQuartile],
+        ["JIF", j => `${displayIF(j)}（${j.ifYear}）`],
+        ["出版商", j => j.publisher],
+        ["审稿模式", j => j.reviewText],
+        ["摘要", j => j.abstract],
+        ["正文", j => j.length],
+        ["参考文献", j => j.refs],
+        ["关键词", j => j.keywords],
+        ["Highlights", j => j.highlights],
+        ["Graphical Abstract", j => j.graphical ? (j.graphicalText || "有相关要求") : "未见常规要求"],
+        ["声明", j => (j.declarations || []).join(" / ")],
+        ["备注", j => j.note],
+        ["投稿链接", j => `<a href="${j.url}" target="_blank" rel="noopener">打开 ↗</a>`]
+      ];
+
+      document.getElementById("compareContent").innerHTML = `
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>项目</th>
+                ${selected.map(j => `<th>${j.name}<br><small>${j.abbr}</small></th>`).join("")}
+              </tr>
+            </thead>
+            <tbody>
+              ${fields.map(([label, getter]) => `
+                <tr>
+                  <th>${label}</th>
+                  ${selected.map(j => `<td>${getter(j)}</td>`).join("")}
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        </div>
+      `;
+
+      openModal("compareModal");
+    }
+
+    function generateChecklist(j) {
+      const list = [
+        `确认论文主题与 ${j.name} 的 aims and scope 匹配。`,
+        `核对分区：${j.casTier}；${j.jcrQuartile}；JIF ${displayIF(j)}（${j.ifYear}）。`,
+        `检查标题是否简洁、准确、信息充分。`,
+        `摘要要求：${j.abstract}。`,
+        `正文格式 / 页数要求：${j.length}。`,
+        `参考文献要求：${j.refs}。`,
+        `关键词要求：${j.keywords}。`,
+        `Highlights：${j.highlights}。`
+      ];
+
+      if (j.graphical) list.push(`准备或核对图形摘要：${j.graphicalText || "有相关要求"}。`);
+      if (j.review === "double") list.push("双盲投稿：准备 title page 和匿名主文稿，删除作者姓名、单位、致谢、自引身份线索。");
+      if (j.review === "single") list.push("单盲投稿：通常稿件中保留作者信息，但仍需按系统要求检查。");
+
+      (j.declarations || []).forEach(d => list.push(`准备声明：${d}。`));
+      if (j.highlightsRequired) list.push("重点检查 Highlights 数量与字符数，避免因材料缺失被退回。");
+      if (j.maxPages) list.push(`页数体检：当前稿件页数应尽量不超过 ${j.maxPages} 页或按对应类型调整。`);
+      if (j.minRefs || j.maxRefs) list.push(`参考文献体检：建议参考文献数量约 ${j.minRefs || "不限"}–${j.maxRefs || "不限"} 篇。`);
+      if (j.minKeywords || j.maxKeywords) list.push(`关键词体检：建议关键词数量 ${j.minKeywords || 0}–${j.maxKeywords || "不限"} 个。`);
+
+      list.push("检查图表编号、公式编号、引用和参考文献列表是否一一对应。");
+      list.push("检查 cover letter、补充材料、数据/代码链接、伦理审批或知情同意说明是否需要提交。");
+      list.push("最终投稿前再次核对期刊官网 Guide for Authors / Author Center。");
+
+      return list;
+    }
+
+    function openChecklist(abbr) {
+      const j = journals.find(x => x.abbr === abbr);
+      if (!j) return;
+
+      currentChecklistAbbr = abbr;
+      const items = generateChecklist(j);
+      const saved = checklistStore[abbr] || [];
+
+      document.getElementById("checklistTitle").textContent = `${j.name} 投稿前 Checklist`;
+      document.getElementById("checklistSub").textContent = `${j.casTier} · ${j.jcrQuartile} · ${j.publisher} · ${j.reviewText}`;
+
+      document.getElementById("checklistBox").innerHTML = items.map((item, i) => `
+        <label class="check-item">
+          <input type="checkbox" ${saved[i] ? "checked" : ""} onchange="saveChecklistItem('${abbr}', ${i}, this.checked)" />
+          <span>${item}</span>
+        </label>
+      `).join("");
+
+      updateChecklistProgress(abbr, items.length);
+      openModal("checklistModal");
+    }
+
+    function saveChecklistItem(abbr, index, checked) {
+      const j = journals.find(x => x.abbr === abbr);
+      const total = generateChecklist(j).length;
+      if (!checklistStore[abbr]) checklistStore[abbr] = [];
+      checklistStore[abbr][index] = checked;
+      saveLS("aihub_checklists_cyber", checklistStore);
+      updateChecklistProgress(abbr, total);
+    }
+
+    function updateChecklistProgress(abbr, total) {
+      const saved = checklistStore[abbr] || [];
+      const done = saved.filter(Boolean).length;
+      const pct = total ? Math.round(done / total * 100) : 0;
+      document.getElementById("checklistProgress").textContent = `完成度：${done} / ${total} 项，${pct}%`;
+    }
+
+    function resetCurrentChecklist() {
+      if (!currentChecklistAbbr) return;
+      if (!confirm("确定重置该期刊 Checklist 吗？")) return;
+      delete checklistStore[currentChecklistAbbr];
+      saveLS("aihub_checklists_cyber", checklistStore);
+      openChecklist(currentChecklistAbbr);
+    }
+
+    function copyCurrentChecklist() {
+      const j = journals.find(x => x.abbr === currentChecklistAbbr);
+      if (!j) return;
+      const items = generateChecklist(j);
+      const saved = checklistStore[j.abbr] || [];
+      const text = `# ${j.name} 投稿前 Checklist\n\n` + items.map((item, i) => `${saved[i] ? "- [x]" : "- [ ]"} ${item}`).join("\n");
+      copyText(text, "Checklist 已复制。");
+    }
+
+    function runMatcher() {
+      const title = document.getElementById("mTitle").value;
+      const abs = document.getElementById("mAbstract").value;
+      const kws = document.getElementById("mKeywords").value;
+      const area = document.getElementById("mArea").value;
+      const pages = Number(document.getElementById("mPages").value);
+      const refs = Number(document.getElementById("mRefs").value);
+      const keyCount = Number(document.getElementById("mKeyCount").value);
+      const highlights = Number(document.getElementById("mHighlights").value);
+      const manuscriptText = `${title} ${abs} ${kws} ${area}`.toLowerCase();
+
+      const results = journals.map(j => {
+        let score = 40;
+        const reasons = [];
+        const tags = j.scopeTags || [];
+        const hitTags = tags.filter(t => manuscriptText.includes(t.toLowerCase()));
+
+        score += Math.min(35, hitTags.length * 9);
+        if (hitTags.length) reasons.push(`Scope 命中：${hitTags.slice(0, 5).join(" / ")}`);
+        else reasons.push("Scope 标签未明显命中，需人工核对 aims and scope。");
+
+        if (pages) {
+          if (j.maxPages && pages > j.maxPages) {
+            score -= Math.min(20, (pages - j.maxPages) * 2);
+            reasons.push(`页数风险：当前 ${pages} 页，高于该刊参考上限 ${j.maxPages}。`);
+          } else if (j.maxPages) {
+            score += 6;
+            reasons.push(`页数匹配：当前 ${pages} 页，未超过该刊参考上限。`);
+          }
+        }
+
+        if (refs) {
+          if (j.minRefs && refs < j.minRefs) {
+            score -= 8;
+            reasons.push(`参考文献偏少：当前 ${refs} 篇，建议补充至约 ${j.minRefs}+。`);
+          }
+          if (j.maxRefs && refs > j.maxRefs) {
+            score -= 6;
+            reasons.push(`参考文献偏多：当前 ${refs} 篇，高于该刊建议上限 ${j.maxRefs}。`);
+          }
+        }
+
+        if (keyCount) {
+          if (j.minKeywords && keyCount < j.minKeywords) {
+            score -= 6;
+            reasons.push(`关键词偏少：当前 ${keyCount} 个。`);
+          } else if (j.maxKeywords && keyCount > j.maxKeywords) {
+            score -= 6;
+            reasons.push(`关键词偏多：当前 ${keyCount} 个。`);
+          } else if (j.minKeywords || j.maxKeywords) {
+            score += 4;
+            reasons.push("关键词数量基本匹配。");
+          }
+        }
+
+        if (j.highlightsRequired) {
+          if (highlights >= 3 && highlights <= 5) {
+            score += 5;
+            reasons.push("Highlights 数量符合常见要求。");
+          } else {
+            score -= 8;
+            reasons.push("该刊 Highlights 必需或通常需提供，建议准备 3–5 条。");
+          }
+        }
+
+        if (j.casTier === "中科院一区") score += 2;
+        if (j.review === "double") reasons.push("该刊为双盲或双匿名，请注意匿名化。");
+        if (j.graphical) reasons.push(j.graphicalText || "该刊涉及 Graphical Abstract 要求。");
+
+        score = Math.max(0, Math.min(100, Math.round(score)));
+        return { journal: j, score, reasons };
+      }).sort((a, b) => b.score - a.score);
+
+      document.getElementById("matchResults").innerHTML = results.slice(0, 8).map(r => `
+        <div class="match-card">
+          <div class="match-head">
+            <div>
+              <strong>${r.journal.name}</strong>
+              <div class="abbr">${r.journal.casTier} · ${r.journal.jcrQuartile} · ${r.journal.abbr} · JIF ${displayIF(r.journal)} · ${r.journal.reviewText}</div>
+            </div>
+            <div class="score">${r.score}</div>
+          </div>
+          <div class="bar"><i style="width:${r.score}%"></i></div>
+          <p class="panel-desc">${r.reasons.join("<br>")}</p>
+          <div class="panel-actions">
+            <button class="btn" onclick="openChecklist('${r.journal.abbr}')">打开 Checklist</button>
+            <button class="btn" onclick="toggleCompare('${r.journal.abbr}', true); renderJournals();">加入对比</button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function clearMatcher() {
+      ["mTitle","mKeywords","mPages","mRefs","mKeyCount","mHighlights","mAbstract"].forEach(id => document.getElementById(id).value = "");
+      document.getElementById("mArea").value = "";
+      document.getElementById("mType").value = "research";
+      document.getElementById("matchResults").innerHTML = "";
+    }
+
+    function populateJournalSelect() {
+      const sel = document.getElementById("paperJournal");
+      sel.innerHTML = journals.map(j => `<option value="${j.abbr}">${j.name} (${j.abbr})</option>`).join("");
+      document.getElementById("paperDate").valueAsDate = new Date();
+    }
+
+    function addManuscript() {
+      const title = document.getElementById("paperTitle").value.trim();
+      const journal = document.getElementById("paperJournal").value;
+      const status = document.getElementById("paperStatus").value;
+      const date = document.getElementById("paperDate").value;
+      const note = document.getElementById("paperNote").value.trim();
+
+      if (!title) {
+        alert("请先输入稿件标题。");
+        return;
+      }
+
+      manuscripts.push({ id: "M" + Date.now(), title, journal, status, date, note, createdAt: new Date().toISOString() });
+      saveLS("aihub_manuscripts_cyber", manuscripts);
+      document.getElementById("paperTitle").value = "";
+      document.getElementById("paperNote").value = "";
+      renderKanban();
+      updateStats();
+    }
+
+    function renderKanban() {
+      const groups = {
+        "Writing": ["Writing", "Formatting"],
+        "Submitted": ["Submitted"],
+        "Under Review": ["Under Review"],
+        "Decision": ["Revision", "Accepted", "Rejected"]
+      };
+
+      document.getElementById("kanban").innerHTML = Object.entries(groups).map(([col, states]) => {
+        const items = manuscripts.filter(m => states.includes(m.status));
+        return `
+          <div class="kanban-col">
+            <h4>${col} · ${items.length}</h4>
+            ${items.map(m => manuscriptHTML(m)).join("") || `<p class="panel-desc">暂无稿件</p>`}
+          </div>
+        `;
+      }).join("");
+    }
+
+    function manuscriptHTML(m) {
+      const j = journals.find(x => x.abbr === m.journal);
+      return `
+        <div class="manuscript-card">
+          <strong>${m.title}</strong>
+          <small>目标期刊：${j ? j.name : m.journal}</small>
+          <small>日期：${m.date || "未记录"}</small>
+          <small>备注：${m.note || "—"}</small>
+          <div class="manuscript-actions">
+            <select onchange="changeManuscriptStatus('${m.id}', this.value)">
+              ${statuses.map(s => `<option value="${s}" ${m.status === s ? "selected" : ""}>${s}</option>`).join("")}
+            </select>
+            <button class="small-action" onclick="deleteManuscript('${m.id}')">删除</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function changeManuscriptStatus(id, status) {
+      manuscripts = manuscripts.map(m => m.id === id ? { ...m, status } : m);
+      saveLS("aihub_manuscripts_cyber", manuscripts);
+      renderKanban();
+    }
+
+    function deleteManuscript(id) {
+      if (!confirm("确定删除该稿件记录吗？")) return;
+      manuscripts = manuscripts.filter(m => m.id !== id);
+      saveLS("aihub_manuscripts_cyber", manuscripts);
+      renderKanban();
+      updateStats();
+    }
+
+    function clearManuscripts() {
+      if (!confirm("确定清空所有稿件记录吗？")) return;
+      manuscripts = [];
+      saveLS("aihub_manuscripts_cyber", manuscripts);
+      renderKanban();
+      updateStats();
+    }
+
+    function copyJournal(abbr) {
+      const j = journals.find(x => x.abbr === abbr);
       const text = `
 ${j.name} (${j.abbr})
-分区：${j.tier}
-JIF：${j.ifactor}
-投稿链接：${j.url}
+中科院分区：${j.casTier}
+JCR 分区：${j.jcrQuartile}
+JIF：${displayIF(j)}（${j.ifYear}）
+出版商：${j.publisher}
+投稿 / 指南链接：${j.url}
 审稿模式：${j.reviewText}
 摘要：${j.abstract}
 正文：${j.length}
 参考文献：${j.refs}
 关键词：${j.keywords}
 Highlights：${j.highlights}
+Graphical Abstract：${j.graphical ? (j.graphicalText || "有相关要求") : "未见常规要求"}
 声明：${(j.declarations || []).join(" / ")}
+Scope 标签：${(j.scopeTags || []).join(" / ")}
 备注：${j.note}
       `.trim();
 
-      navigator.clipboard.writeText(text).then(() => {
-        alert(`已复制：${j.abbr}`);
+      copyText(text, `已复制：${j.abbr}`);
+    }
+
+    function exportJSON() {
+      const data = { exportedAt: new Date().toISOString(), metricYear: IF_YEAR, journals, manuscripts, checklistStore };
+      downloadFile("ai-journal-hub-cyber-export.json", JSON.stringify(data, null, 2), "application/json");
+    }
+
+    function exportMarkdown() {
+      const lines = [];
+      lines.push(`# AI Journal Submission Hub Export`);
+      lines.push(``);
+      lines.push(`导出时间：${new Date().toLocaleString()}`);
+      lines.push(`指标口径：${IF_YEAR}`);
+      lines.push(``);
+      lines.push(`## 期刊库`);
+
+      journals.forEach(j => {
+        lines.push(``);
+        lines.push(`### ${j.name} (${j.abbr})`);
+        lines.push(`- 中科院分区：${j.casTier}`);
+        lines.push(`- JCR 分区：${j.jcrQuartile}`);
+        lines.push(`- JIF：${displayIF(j)}（${j.ifYear}）`);
+        lines.push(`- 出版商：${j.publisher}`);
+        lines.push(`- 审稿模式：${j.reviewText}`);
+        lines.push(`- 摘要：${j.abstract}`);
+        lines.push(`- 正文：${j.length}`);
+        lines.push(`- 参考文献：${j.refs}`);
+        lines.push(`- 关键词：${j.keywords}`);
+        lines.push(`- Highlights：${j.highlights}`);
+        lines.push(`- Graphical Abstract：${j.graphical ? (j.graphicalText || "有相关要求") : "未见常规要求"}`);
+        lines.push(`- 声明：${(j.declarations || []).join(" / ")}`);
+        lines.push(`- 链接：${j.url}`);
+      });
+
+      lines.push(``);
+      lines.push(`## 我的稿件`);
+      if (!manuscripts.length) {
+        lines.push(`暂无稿件记录。`);
+      } else {
+        manuscripts.forEach(m => {
+          const j = journals.find(x => x.abbr === m.journal);
+          lines.push(``);
+          lines.push(`### ${m.title}`);
+          lines.push(`- 目标期刊：${j ? j.name : m.journal}`);
+          lines.push(`- 状态：${m.status}`);
+          lines.push(`- 日期：${m.date || "未记录"}`);
+          lines.push(`- 备注：${m.note || "—"}`);
+        });
+      }
+
+      downloadFile("ai-journal-hub-cyber-export.md", lines.join("\n"), "text/markdown");
+    }
+
+    function downloadFile(filename, content, type) {
+      const blob = new Blob([content], { type });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function copyText(text, msg) {
+      navigator.clipboard.writeText(text).then(() => alert(msg)).catch(() => {
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        ta.remove();
+        alert(msg);
       });
     }
 
-    function scrollToCards() {
-      document.getElementById("cards").scrollIntoView({ behavior: "smooth", block: "start" });
+    function openModal(id) { document.getElementById(id).classList.add("open"); }
+    function closeModal(id) { document.getElementById(id).classList.remove("open"); }
+    function scrollToId(id) { document.getElementById(id).scrollIntoView({ behavior: "smooth", block: "start" }); }
+
+    function updateStats() {
+      const ifValues = journals.map(j => Number(j.ifactor)).filter(Number.isFinite);
+      document.getElementById("statTotal").textContent = journals.length;
+      document.getElementById("statQ1").textContent = journals.filter(j => j.casTier === "中科院一区").length;
+      document.getElementById("statIF").textContent = ifValues.length ? Math.max(...ifValues).toFixed(1) : "—";
+      document.getElementById("statManuscripts").textContent = manuscripts.length;
+    }
+
+    function createPetals() {
+      const layer = document.getElementById("petalLayer");
+      const count = 42;
+      for (let i = 0; i < count; i++) {
+        const el = document.createElement("span");
+        const isMaple = Math.random() > 0.55;
+        el.className = isMaple ? "petal maple" : "petal sakura";
+        if (isMaple) el.textContent = "🍁";
+        el.style.left = Math.random() * 100 + "vw";
+        el.style.animationDuration = `${10 + Math.random() * 18}s, ${4 + Math.random() * 5}s, ${7 + Math.random() * 10}s`;
+        el.style.animationDelay = `${-Math.random() * 24}s, ${-Math.random() * 8}s, ${-Math.random() * 12}s`;
+        el.style.transform = `scale(${0.65 + Math.random() * 0.9}) rotate(${Math.random() * 360}deg)`;
+        layer.appendChild(el);
+      }
     }
 
     chips.forEach(chip => {
@@ -1241,17 +1698,23 @@ Highlights：${j.highlights}
         chips.forEach(c => c.classList.remove("active"));
         chip.classList.add("active");
         currentFilter = chip.dataset.filter;
-        render();
+        renderJournals();
       });
     });
 
-    searchInput.addEventListener("input", render);
+    searchInput.addEventListener("input", renderJournals);
 
-    document.getElementById("statTotal").textContent = journals.length;
-    document.getElementById("statQ1").textContent = journals.filter(j => j.tier === "一区").length;
-    document.getElementById("statIF").textContent = Math.max(...journals.map(j => Number(j.ifactor) || 0)).toFixed(1);
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape") {
+        document.querySelectorAll(".modal.open").forEach(m => m.classList.remove("open"));
+      }
+    });
 
-    render();
+  // createPetals();
+    populateJournalSelect();
+    renderJournals();
+    renderKanban();
+    updateStats();
   </script>
 </body>
 </html>
